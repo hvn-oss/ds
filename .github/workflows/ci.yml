@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions: {}
+
+jobs:
+  ci:
+    name: Continuous Integration
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # to check out repo (actions/checkout)
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false # recommended: do not persist git credentials on disk
+      - name: Set up Vite+
+        uses: voidzero-dev/setup-vp@cab1ab9eaff52d4857875f4f2c016e36af8f2c76 # v1.22.0
+        with:
+          node-version: "lts"
+          cache: true
+          run-install: true
+      - name: Build, check, and test
+        run: vp run ready
+      - name: Verify package tarball
+        run: vp run @hvn-oss/ds#verify
