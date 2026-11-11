@@ -11,6 +11,8 @@
   },
   "devDependencies": {
     "@astryxdesign/cli": "catalog:",
+    "@changesets/changelog-github": "catalog:",
+    "@changesets/cli": "catalog:",
     "vite-plus": "catalog:"
   },
   "devEngines": {
