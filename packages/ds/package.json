@@ -1,0 +1,59 @@
+{
+  "name": "@hvn-oss/ds",
+  "version": "0.0.0",
+  "description": "HVN design system: Astryx theme, components, and templates.",
+  "bugs": "https://github.com/hvn-oss/ds/issues",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hvn-oss/ds.git",
+    "directory": "packages/ds"
+  },
+  "files": [
+    "dist",
+    "src",
+    "docs",
+    "astryx.integration.mjs"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./themes/hvn": "./dist/themes/hvn/hvn.js",
+    "./themes/hvn.css": "./dist/themes/hvn/hvn.css",
+    "./themes/hvn.fonts.css": "./dist/themes/hvn/hvn.fonts.css"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepack": "vp run build",
+    "clean": "git clean -xdf node_modules dist"
+  },
+  "dependencies": {
+    "lucide-react": "catalog:"
+  },
+  "devDependencies": {
+    "@astryxdesign/cli": "catalog:",
+    "@astryxdesign/core": "catalog:",
+    "@fontsource-variable/figtree": "catalog:",
+    "@fontsource-variable/jetbrains-mono": "catalog:",
+    "@fontsource-variable/montserrat": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@typescript/typescript6": "catalog:",
+    "react": "catalog:",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "@astryxdesign/cli": ">=0.6.4",
+    "@astryxdesign/core": "^0.7.11",
+    "react": "^19"
+  },
+  "peerDependenciesMeta": {
+    "@astryxdesign/cli": {
+      "optional": true
+    }
+  }
+}

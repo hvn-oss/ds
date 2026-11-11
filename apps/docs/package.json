@@ -1,0 +1,31 @@
+{
+  "name": "docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "preview": "vp preview",
+    "postinstall": "void prepare",
+    "clean": "git clean -xdf node_modules dist .cloudflare .void"
+  },
+  "dependencies": {
+    "@astryxdesign/core": "catalog:",
+    "@hvn-oss/ds": "workspace:*",
+    "@stylexjs/stylex": "catalog:",
+    "@tailwindcss/vite": "catalog:",
+    "hono": "^4.11.9",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "tailwindcss": "catalog:",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@void/react": "1.7.0",
+    "oxc-transform-react": ">=0.152.0 <0.157.0",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
+    "void": "1.7.0"
+  }
+}

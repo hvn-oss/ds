@@ -1,12 +1,25 @@
 packages:
   - apps/*
   - packages/*
-  - tools/*
 
 catalogMode: prefer
 
 catalog:
+  "@astryxdesign/cli": ^0.7.11
+  "@astryxdesign/core": ^0.7.11
+  "@fontsource-variable/figtree": ^5.3.0
+  "@fontsource-variable/jetbrains-mono": ^5.3.0
+  "@fontsource-variable/montserrat": ^5.3.0
+  "@stylexjs/stylex": ^0.19.1
+  "@tailwindcss/vite": ^4.3.5
   "@types/node": ^24
+  "@types/react": ^19.3.0
+  "@types/react-dom": ^19.3.0
+  "@typescript/typescript6": ^6.0.2
+  lucide-react: ^1.71.0
+  react: ^19.3.1
+  react-dom: ^19.3.1
+  tailwindcss: ^4.3.5
   typescript: ^7.0.2
   vite: npm:@voidzero-dev/vite-plus-core@1.5.0
   vite-plus: 1.5.0
@@ -17,3 +30,20 @@ peerDependencyRules:
     - vite
   allowedVersions:
     vite: "*"
+allowBuilds:
+  esbuild: true
+  workerd: true
+  better-sqlite3: false
+  sharp: true
+permissions:
+  "@astryxdesign/cli":
+    build: true
+  "@astryxdesign/core":
+    build: true
+  void:
+    skills: [migrate-vite-cloudflare-to-void, void]
+skills:
+  dirs:
+    - .agents/skills
+minimumReleaseAgeExclude:
+  - lucide-react@1.71.0

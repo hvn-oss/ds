@@ -4,11 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "ready": "vp check && vp run -r test && vp run -r build",
-    "dev": "vp run website#dev",
-    "prepare": "vp config"
+    "ready": "vp run -r build && vp check && vp test",
+    "dev": "vp run @hvn-oss/ds#build && vp run -r --parallel dev",
+    "prepare": "vp config && vp run @hvn-oss/ds#build",
+    "clean": "vp run -r clean && git clean -xdf node_modules"
   },
   "devDependencies": {
+    "@astryxdesign/cli": "catalog:",
     "vite-plus": "catalog:"
   },
   "devEngines": {
