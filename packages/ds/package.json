@@ -2,6 +2,7 @@
   "name": "@hvn-oss/ds",
   "version": "0.0.0",
   "description": "HVN design system: Astryx theme, components, and templates.",
+  "homepage": "https://github.com/hvn-oss/ds#readme",
   "bugs": "https://github.com/hvn-oss/ds/issues",
   "license": "MIT",
   "repository": {
@@ -28,7 +29,6 @@
     "access": "public"
   },
   "scripts": {
-    "prepack": "vp run build",
     "clean": "git clean -xdf node_modules dist"
   },
   "dependencies": {

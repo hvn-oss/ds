@@ -39,7 +39,7 @@ vp run verify       # build, then pack + install in a temp app (astryx integrati
 ```
 
 `dist/` is rebuilt by the root `prepare` script on install, before `docs#dev` / `docs#build` (via
-`dependsOn`), and by `prepack` before publishing.
+`dependsOn`), and by the release workflow before packing.
 
 Icon registries are plain JS (`createElement`, no JSX). The theme source imports `./icons.js`, and
 `astryx theme build` copies that import into the built module unchanged, so `dist/themes/<slug>/`
