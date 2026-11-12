@@ -7,7 +7,7 @@
     "#collections/*": "./.source/*.ts"
   },
   "scripts": {
-    "preview": "vp preview",
+    "start": "vp preview",
     "test": "vp test",
     "postinstall": "void prepare && fumadocs-mdx",
     "clean": "git clean -xdf node_modules dist .cloudflare .void .source"
