@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "ready": "vp run -r build && vp check && vp test",
+    "ready": "vp run -r build && vp check && vp run -r test",
     "dev": "vp run @hvn-oss/ds#build && vp run -r --parallel dev",
     "prepare": "vp config && vp run @hvn-oss/ds#build",
     "clean": "vp run -r clean && git clean -xdf node_modules"

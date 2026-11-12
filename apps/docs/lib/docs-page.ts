@@ -1,5 +1,6 @@
 import { isValidElement, type ReactNode } from "react";
 import { HTTPException } from "hono/http-exception";
+import type { Href } from "void/routes";
 import { getBreadcrumbItems } from "fumadocs-core/breadcrumb";
 import { findNeighbour, type Node, type Root } from "fumadocs-core/page-tree";
 import type { DocsPageKind } from "./frontmatter";
@@ -11,7 +12,7 @@ import { source } from "./source";
 export interface NavPage {
   type: "page";
   name: string;
-  url: string;
+  url: Href;
   external?: boolean;
 }
 
@@ -43,19 +44,19 @@ export interface TocItem {
 
 export interface NavLink {
   name: string;
-  url: string;
+  url: Href;
 }
 
 export interface BreadcrumbItem {
   name: string;
   /** Missing for a section, which has no page of its own. */
-  url?: string;
+  url?: Href;
 }
 
 export interface DocsPageData {
   /** Path of the MDX file within the docs collection, used to load its content on the client. */
   path: string;
-  url: string;
+  url: Href;
   title: string;
   description?: string;
   kind: DocsPageKind;
@@ -76,7 +77,7 @@ export function getDocsPage(slugs: string[]): DocsPageData {
 
   return {
     path: page.path,
-    url: page.url,
+    url: toHref(page.url),
     title: page.data.title,
     description: page.data.description,
     kind: page.data.kind,
@@ -88,7 +89,7 @@ export function getDocsPage(slugs: string[]): DocsPageData {
     })),
     tree: toNavTree(source.pageTree),
     breadcrumbs: getBreadcrumbItems(page.url, source.pageTree, { includePage: true }).map(
-      (item) => ({ name: toText(item.name), url: item.url }),
+      (item) => ({ name: toText(item.name), url: item.url ? toHref(item.url) : undefined }),
     ),
     previous: neighbours.previous && toNavLink(neighbours.previous),
     next: neighbours.next && toNavLink(neighbours.next),
@@ -122,11 +123,28 @@ function toNavNode(node: Node): NavNode {
 }
 
 function toNavPage(node: { name: ReactNode; url: string; external?: boolean }): NavPage {
-  return { type: "page", name: toText(node.name), url: node.url, external: node.external };
+  return { type: "page", name: toText(node.name), url: toHref(node.url), external: node.external };
 }
 
 function toNavLink(node: { name: ReactNode; url: string }): NavLink {
-  return { name: toText(node.name), url: node.url };
+  return { name: toText(node.name), url: toHref(node.url) };
+}
+
+/**
+ * Fumadocs URLs are plain strings, so this is where they become typed routes. Every URL under
+ * `/docs` is served by `pages/docs/index` or `pages/docs/[...slug]`; external pages are web URLs.
+ */
+function toHref(url: string): Href {
+  if (isDocsUrl(url) || isWebUrl(url)) return url;
+  throw new Error(`Page tree URL is neither a docs route nor a web URL: ${url}`);
+}
+
+function isDocsUrl(url: string): url is "/docs" | `/docs/${string}` {
+  return url === "/docs" || url.startsWith("/docs/");
+}
+
+function isWebUrl(url: string): url is `${"http://" | "https://"}${string}` {
+  return url.startsWith("http://") || url.startsWith("https://");
 }
 
 function toText(node: ReactNode): string {

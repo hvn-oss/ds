@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vite-plus/test";
-import { frontmatterSchema } from "./frontmatter";
+import { frontmatterSchema } from "#/lib/frontmatter.ts";
 
 describe("frontmatterSchema", () => {
   test("a page without kind is a guide page", () => {

@@ -7,7 +7,6 @@ import {
   type ReactNode,
 } from "react";
 import type { MDXComponents } from "mdx/types";
-import { Link as VoidLink } from "@void/react";
 import { Blockquote } from "@astryxdesign/core/Blockquote";
 import { Code } from "@astryxdesign/core/Code";
 import { CodeBlock } from "@astryxdesign/core/CodeBlock";
@@ -23,6 +22,7 @@ import {
   TableRow,
 } from "@astryxdesign/core/Table";
 import { Text } from "@astryxdesign/core/Text";
+import { RouterLink } from "./router-link";
 
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -67,11 +67,6 @@ function MdxParagraph({ children }: ComponentProps<"p">) {
 
 function isExternal(href: string) {
   return /^([a-z][a-z\d+.-]*:|\/\/)/i.test(href);
-}
-
-/** Astryx `Link` passes router components a `to` prop as well as `href`; Void's `Link` only reads `href`. */
-function RouterLink({ to: _to, ...props }: ComponentProps<typeof VoidLink> & { to?: string }) {
-  return <VoidLink {...props} />;
 }
 
 function MdxLink({ href = "", children }: ComponentProps<"a">) {

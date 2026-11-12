@@ -8,6 +8,7 @@
   },
   "scripts": {
     "preview": "vp preview",
+    "test": "vp test",
     "postinstall": "void prepare && fumadocs-mdx",
     "clean": "git clean -xdf node_modules dist .cloudflare .void .source"
   },
@@ -19,6 +20,7 @@
     "fumadocs-core": "catalog:",
     "fumadocs-mdx": "catalog:",
     "hono": "^4.11.9",
+    "lucide-react": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "tailwindcss": "catalog:",
