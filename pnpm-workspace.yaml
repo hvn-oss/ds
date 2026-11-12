@@ -14,10 +14,13 @@ catalog:
   "@fontsource-variable/montserrat": ^5.3.0
   "@stylexjs/stylex": ^0.19.1
   "@tailwindcss/vite": ^4.3.5
+  "@types/mdx": ^2.0.14
   "@types/node": ^24
   "@types/react": ^19.3.0
   "@types/react-dom": ^19.3.0
   "@typescript/typescript6": ^6.0.2
+  fumadocs-core: ^16.18.4
+  fumadocs-mdx: ^15.5.3
   lucide-react: ^1.71.0
   react: ^19.3.1
   react-dom: ^19.3.1
