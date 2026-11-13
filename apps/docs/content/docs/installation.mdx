@@ -1,0 +1,94 @@
+---
+title: Installation
+description: Add hvn ds to a React app and wrap the app in the hvn theme.
+---
+
+<Callout title="Prerequisites">
+
+- A React 19 app.
+- [Astryx](https://astryx.atmeta.com) `@astryxdesign/core` 0.7, from 0.7.11.
+
+</Callout>
+
+## Set up the theme
+
+<Steps>
+
+<Step title="Install the packages">
+
+Install hvn ds, and the Astryx CLI as a dev dependency:
+
+```bash
+npm install @hvn-oss/ds @astryxdesign/core
+npm install -D @astryxdesign/cli
+```
+
+</Step>
+
+<Step title="Add the hvn theme">
+
+The CLI finds the `hvn` theme in `@hvn-oss/ds`. It writes an `astryx-themes.ts` module that imports the theme with its stylesheet and fonts, then makes `hvn` the default:
+
+```bash
+npx astryx theme add hvn --package @hvn-oss/ds
+npx astryx theme use hvn
+```
+
+</Step>
+
+<Step title="Import the Astryx styles">
+
+Import the Astryx reset and component styles once, at your app's entry point:
+
+```tsx
+import "@astryxdesign/core/reset.css";
+import "@astryxdesign/core/astryx.css";
+```
+
+<Callout title="Using Tailwind?">
+
+Astryx and Tailwind both put their styles in CSS cascade layers, and the first stylesheet to name a layer sets its rank. Declare the layer order at the top of your first stylesheet, before any other CSS, so Tailwind's reset doesn't override Astryx components:
+
+```css
+@layer reset, theme, base, astryx-base, astryx-theme, components, utilities;
+```
+
+See [styling libraries](https://astryx.atmeta.com/docs/styling-libraries) in the Astryx docs for the full setup.
+
+</Callout>
+
+</Step>
+
+<Step title="Wrap your app in the theme">
+
+Pass the default theme from the generated module to Astryx `Theme`:
+
+```tsx
+import { Theme } from "@astryxdesign/core/theme";
+import { themes, defaultThemeSlug } from "./astryx-themes";
+
+export function App({ children }: { children: React.ReactNode }) {
+  return <Theme theme={themes[defaultThemeSlug]}>{children}</Theme>;
+}
+```
+
+</Step>
+
+</Steps>
+
+## Check it works
+
+Render any Astryx component inside the theme. A primary button should come out violet:
+
+```tsx
+import { Button } from "@astryxdesign/core/Button";
+
+<Button label="Hello hvn" variant="primary" />;
+```
+
+<NextSteps>
+
+- [Theming](/docs/theming): what the `hvn` theme changes, and how to customise it.
+- [Introduction](/docs): what's in the package.
+
+</NextSteps>

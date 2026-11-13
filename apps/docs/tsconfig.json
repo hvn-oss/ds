@@ -4,11 +4,26 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "types": ["void/env"],
     "jsx": "react-jsx"
   },
-  "include": ["src", "pages", "routes", "middleware", "crons", "queues", "astryx-themes.ts"]
+  "include": [
+    "src",
+    "pages",
+    "routes",
+    "middleware",
+    "crons",
+    "queues",
+    "lib",
+    "components",
+    "examples",
+    "tests",
+    "astryx-themes.ts",
+    "source.config.ts"
+  ]
 }

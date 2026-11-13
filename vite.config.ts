@@ -19,10 +19,6 @@ export default defineConfig({
     rules: { "vite-plus/prefer-vite-plus-imports": "error" },
     options: { typeAware: true, typeCheck: true },
   },
-  test: {
-    // No suites yet; keep `vp test` (and `ready`) green until the first one lands.
-    passWithNoTests: true,
-  },
   run: {
     cache: true,
   },

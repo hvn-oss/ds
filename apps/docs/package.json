@@ -2,23 +2,32 @@
   "name": "docs",
   "private": true,
   "type": "module",
+  "imports": {
+    "#/*": "./*",
+    "#collections/*": "./.source/*.ts"
+  },
   "scripts": {
-    "preview": "vp preview",
-    "postinstall": "void prepare",
-    "clean": "git clean -xdf node_modules dist .cloudflare .void"
+    "start": "vp preview",
+    "test": "vp test",
+    "postinstall": "void prepare && fumadocs-mdx",
+    "clean": "git clean -xdf node_modules dist .cloudflare .void .source"
   },
   "dependencies": {
     "@astryxdesign/core": "catalog:",
     "@hvn-oss/ds": "workspace:*",
     "@stylexjs/stylex": "catalog:",
     "@tailwindcss/vite": "catalog:",
+    "fumadocs-core": "catalog:",
+    "fumadocs-mdx": "catalog:",
     "hono": "^4.11.9",
+    "lucide-react": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "tailwindcss": "catalog:",
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@types/mdx": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@void/react": "1.7.0",
@@ -27,5 +36,8 @@
     "vite": "catalog:",
     "vite-plus": "catalog:",
     "void": "1.7.0"
+  },
+  "engines": {
+    "node": ">=24.14.0"
   }
 }

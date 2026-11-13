@@ -89,6 +89,10 @@ the generic version; restore this one from git (`git checkout -p AGENTS.md`).
 
 <!-- ASTRYX:END -->
 
+## Commits
+
+Use the [Conventional Commits](https://www.conventionalcommits.org) standard when committing.
+
 ## Agent skills
 
 ### Issue tracker

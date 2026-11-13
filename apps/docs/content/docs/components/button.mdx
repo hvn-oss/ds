@@ -1,0 +1,32 @@
+---
+title: Button
+description: Lets people take an action, such as submitting a form or opening a dialog.
+kind: component
+baseDocs: https://astryx.atmeta.com/components/Button
+---
+
+<Preview name="button/default" />
+
+## Usage
+
+Use a button for an action on the current page. To go to another page, use a link instead. Give each view at most one `primary` button, for the action most people take next.
+
+```tsx
+import { Button } from "@astryxdesign/core/Button";
+
+<Button label="Save" variant="primary" />;
+```
+
+## Examples
+
+<Example name="button/variants" title="Variants">
+
+`variant` sets the button's emphasis. `secondary` is the default; keep `destructive` for actions that delete or can't be undone.
+
+</Example>
+
+<Example name="button/with-icon" title="With an icon">
+
+`icon` adds an icon before the label, and `endContent` adds one after it. The label stays, so the button keeps its accessible name.
+
+</Example>

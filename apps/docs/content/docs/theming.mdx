@@ -1,0 +1,65 @@
+---
+title: Theming
+description: What the hvn theme changes in Astryx, and how to build on it.
+---
+
+The `hvn` theme gives Astryx components the hvn look. It is forked from the Astryx Stone theme: warm, earthy neutrals with a violet primary. Every colour, font and radius reaches components as a CSS variable, so apps style with tokens rather than raw values.
+
+> The theme isn't final yet, so its values may still change.
+
+## Fonts
+
+The theme self-hosts three variable fonts through `@hvn-oss/ds/themes/hvn.fonts.css`. `astryx theme add` imports that stylesheet for you.
+
+| Use      | Font           |
+| -------- | -------------- |
+| Headings | Montserrat     |
+| Body     | Figtree        |
+| Code     | JetBrains Mono |
+
+## Colours
+
+Colours come from a palette generated from Stone, with a light and a dark value for each token. The theme follows the system's colour scheme by default.
+
+| Role               | Colour                                      |
+| ------------------ | ------------------------------------------- |
+| Neutrals           | Warm Stone greys                            |
+| Primary buttons    | Violet                                      |
+| Secondary controls | Transparent, with an emphasised border      |
+| Code               | Stone syntax colours, from the same palette |
+
+## Radius
+
+| Token                | Value     |
+| -------------------- | --------- |
+| `--radius-inner`     | `0.25rem` |
+| `--radius-element`   | `0.5rem`  |
+| `--radius-container` | `0.75rem` |
+| `--radius-page`      | `1.5rem`  |
+| `--radius-full`      | `9999px`  |
+
+## Customise the theme
+
+Don't copy the theme's source. Define your own theme that `extends` it, and override only what you need:
+
+```tsx
+import { defineTheme } from "@astryxdesign/core/theme";
+import { hvnTheme } from "@hvn-oss/ds/themes/hvn";
+
+export const brandTheme = defineTheme({
+  name: "brand",
+  extends: hvnTheme,
+  tokens: {
+    "--radius-element": "0.25rem",
+  },
+});
+```
+
+Everything you leave out carries over from `hvn`. Build the file with `npx astryx theme build <path>`, then add the result as a local theme so the generated `astryx-themes.ts` imports it. See [Astryx](https://astryx.atmeta.com) for every token and how theme inheritance works, or run `npx astryx docs author-a-theme`.
+
+<NextSteps>
+
+- [Installation](/docs/installation) sets the theme up in an app.
+- The theme's source is in [`packages/ds`](https://github.com/hvn-oss/ds/tree/main/packages/ds/src/themes/hvn) on GitHub.
+
+</NextSteps>

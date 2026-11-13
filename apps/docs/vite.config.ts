@@ -2,10 +2,11 @@ import { defineConfig, lazyPlugins } from "vite-plus";
 import { voidPlugin } from "void";
 import { voidReact } from "@void/react/plugin";
 import tailwindcss from "@tailwindcss/vite";
+import { fumadocsMdx } from "fumadocs-mdx/vite";
 
 export default defineConfig((env) => ({
   plugins: lazyPlugins(() => {
-    const voidPlugins = [voidPlugin(), voidReact({ react: { compiler: true } })];
+    const voidPlugins = [fumadocsMdx(), voidPlugin(), voidReact({ react: { compiler: true } })];
     return [tailwindcss(), env.mode !== "test" ? voidPlugins : null];
   }),
   run: {

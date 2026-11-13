@@ -1,0 +1,34 @@
+---
+title: Text input
+description: A single-line field for short text, such as a name, an email address or a search.
+kind: component
+baseDocs: https://astryx.atmeta.com/components/TextInput
+---
+
+<Preview name="text-input/default" />
+
+## Usage
+
+A text input is controlled: pass its `value` and update it in `onChange`. Every input needs a `label`, even when it's hidden with `isLabelHidden`, so screen readers can name it.
+
+```tsx
+import { TextInput } from "@astryxdesign/core/TextInput";
+
+const [name, setName] = useState("");
+
+<TextInput label="Name" value={name} onChange={setName} />;
+```
+
+## Examples
+
+<Example name="text-input/description" title="Description">
+
+`description` explains what to enter, between the label and the field. `isRequired` marks the field as required.
+
+</Example>
+
+<Example name="text-input/validation" title="Validation">
+
+`status` shows an error, warning or success, with an optional message below the field. Remove a space from the username to clear the error.
+
+</Example>
