@@ -18,6 +18,24 @@ _Avoid_: Core, upstream
 A named set of colours, fonts and tokens that gives the base library the design system's look. `hvn` is the only theme today.
 _Avoid_: Skin, palette
 
+**Design file**:
+The Paper file where the design system's look is designed and documented, as pages of artboards. The theme is its counterpart in code.
+_Avoid_: Figma file, design library, Paper doc
+
+### Design file
+
+**Artboard**:
+One board in the design file that documents a single foundation or component.
+_Avoid_: Frame, sheet, board
+
+**Component frame**:
+One rendered combination of a component's props on its artboard, named by those prop values in a fixed order.
+_Avoid_: Variant, master component, instance
+
+**Frame key**:
+The note beside a set of component frames that gives the order of the prop values in their names.
+_Avoid_: Legend, naming guide
+
 ### Docs site
 
 **Docs site**:
