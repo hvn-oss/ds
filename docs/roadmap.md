@@ -21,6 +21,7 @@ One map per category, each covering every component in that category of the Astr
 - Action
 - Data Input
 - Content
+- Navigation
 - Overlay
 - Feedback and Status
 - Table and List
