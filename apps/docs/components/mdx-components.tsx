@@ -39,7 +39,7 @@ export function AnchorHeading({
   children?: ReactNode;
 }) {
   return (
-    <Heading level={level} id={id} className="scroll-mt-16">
+    <Heading level={level} id={id} className="scroll-mt-16 max-lg:scroll-mt-32">
       {id ? (
         // A plain anchor, since Astryx `Link` wraps its children in body-type `Text` and would
         // override the heading's type scale. Preflight makes it inherit the heading's styles.
