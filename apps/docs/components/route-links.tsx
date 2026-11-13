@@ -1,6 +1,8 @@
 import type { Href } from "void/routes";
 import { BreadcrumbItem, type BreadcrumbItemProps } from "@astryxdesign/core/Breadcrumbs";
 import { Button, type ButtonProps } from "@astryxdesign/core/Button";
+import { ClickableCard, type ClickableCardProps } from "@astryxdesign/core/ClickableCard";
+import { LinkProvider } from "@astryxdesign/core/Link";
 import { SideNavItem, type SideNavItemProps } from "@astryxdesign/core/SideNav";
 import {
   TopNavHeading,
@@ -38,6 +40,18 @@ export function RouteSideNavItem({
   ...props
 }: Omit<SideNavItemProps, "href" | "as"> & { href?: Href }) {
   return <SideNavItem {...props} href={href} as={href ? RouterLink : undefined} />;
+}
+
+/** A clickable card. It has no `as` prop, so a `LinkProvider` hands it the router link. */
+export function RouteClickableCard({
+  href,
+  ...props
+}: Omit<ClickableCardProps, "href"> & { href: Href }) {
+  return (
+    <LinkProvider component={RouterLink}>
+      <ClickableCard {...props} href={href} />
+    </LinkProvider>
+  );
 }
 
 /** A breadcrumb; without `href` it's plain text, such as a section with no page of its own. */

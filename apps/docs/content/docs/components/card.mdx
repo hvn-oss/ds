@@ -1,0 +1,34 @@
+---
+title: Card
+description: Groups related content and actions on a contained surface.
+kind: component
+baseDocs: https://astryx.atmeta.com/components/Card
+---
+
+<Preview name="card/default" />
+
+## Usage
+
+Use a card to set one piece of content apart, such as a summary, a record or a prompt. For lists of many similar items, use rows instead, such as a table or a list.
+
+```tsx
+import { Card } from "@astryxdesign/core/Card";
+
+<Card>
+  <Text>Sign-ups grew 12% this week.</Text>
+</Card>;
+```
+
+## Examples
+
+<Example name="card/variants" title="Variants">
+
+`variant` sets the card's background. `muted` sets a card apart without drawing attention to it; the colour variants tag content by kind.
+
+</Example>
+
+<Example name="card/with-actions" title="With actions">
+
+A card can hold its own actions, such as confirming or cancelling, below its content.
+
+</Example>

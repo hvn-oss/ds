@@ -21,6 +21,7 @@
     "queues",
     "lib",
     "components",
+    "examples",
     "tests",
     "astryx-themes.ts",
     "source.config.ts"

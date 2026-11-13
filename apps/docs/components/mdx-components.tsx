@@ -22,33 +22,51 @@ import {
   TableRow,
 } from "@astryxdesign/core/Table";
 import { Text } from "@astryxdesign/core/Text";
+import { Example, Preview } from "./component-page-components";
 import { Callout, NextSteps, Step, Steps } from "./guide-components";
 import { RouterLink } from "./router-link";
 
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
+/** A heading that links to itself, for headings the page frame adds alongside the MDX ones. */
+export function AnchorHeading({
+  level,
+  id,
+  children,
+}: {
+  level: HeadingLevel;
+  id?: string;
+  children?: ReactNode;
+}) {
+  return (
+    <Heading level={level} id={id} className="scroll-mt-16">
+      {id ? (
+        // A plain anchor, since Astryx `Link` wraps its children in body-type `Text` and would
+        // override the heading's type scale. Preflight makes it inherit the heading's styles.
+        <a href={`#${id}`} className="group">
+          {children}
+          <Text
+            type="inherit"
+            color="secondary"
+            aria-hidden
+            className="ms-2 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100"
+          >
+            #
+          </Text>
+        </a>
+      ) : (
+        children
+      )}
+    </Heading>
+  );
+}
+
 function createHeading(level: HeadingLevel) {
   return function MdxHeading({ id, children }: ComponentProps<"h1">) {
     return (
-      <Heading level={level} id={id} className="scroll-mt-16">
-        {id ? (
-          // A plain anchor, since Astryx `Link` wraps its children in body-type `Text` and would
-          // override the heading's type scale. Preflight makes it inherit the heading's styles.
-          <a href={`#${id}`} className="group">
-            {children}
-            <Text
-              type="inherit"
-              color="secondary"
-              aria-hidden
-              className="ms-2 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100"
-            >
-              #
-            </Text>
-          </a>
-        ) : (
-          children
-        )}
-      </Heading>
+      <AnchorHeading level={level} id={id}>
+        {children}
+      </AnchorHeading>
     );
   };
 }
@@ -134,4 +152,6 @@ export const mdxComponents: MDXComponents = {
   Step,
   Callout,
   NextSteps,
+  Preview,
+  Example,
 };

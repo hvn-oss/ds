@@ -1,20 +1,25 @@
-import { Suspense } from "react";
+import { Suspense, type ReactNode } from "react";
 import browserCollections from "#collections/browser";
 import { AppShell } from "@astryxdesign/core/AppShell";
 import { Breadcrumbs } from "@astryxdesign/core/Breadcrumbs";
+import { Card } from "@astryxdesign/core/Card";
+import { Grid } from "@astryxdesign/core/Grid";
 import { Heading } from "@astryxdesign/core/Heading";
 import { HStack } from "@astryxdesign/core/HStack";
 import { Icon } from "@astryxdesign/core/Icon";
 import { Layout, LayoutContent, LayoutPanel } from "@astryxdesign/core/Layout";
+import { Link } from "@astryxdesign/core/Link";
 import { Outline } from "@astryxdesign/core/Outline";
 import { StackItem } from "@astryxdesign/core/Stack";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
+import { API_REFERENCE } from "#/lib/api-reference.ts";
+import { toCatalogEntries } from "#/lib/catalog.ts";
 import type { BreadcrumbItem, DocsPageData, NavLink, TocItem } from "#/lib/docs-page.ts";
 import { toOutlineItems } from "#/lib/outline.ts";
 import { DocsSidebar, SIDEBAR_WIDTH_CLASS } from "./docs-sidebar";
-import { mdxComponents } from "./mdx-components";
-import { RouteBreadcrumbItem, RouteButton } from "./route-links";
+import { AnchorHeading, mdxComponents } from "./mdx-components";
+import { RouteBreadcrumbItem, RouteButton, RouteClickableCard } from "./route-links";
 import { SiteNav } from "./site-nav";
 
 // The loader only sends serialisable page data, so the compiled MDX loads here (ADR-0001).
@@ -28,19 +33,32 @@ export function DocsPage({ page }: { page: DocsPageData }) {
       topNav={<SiteNav isInDocs />}
       sideNav={<DocsSidebar tree={page.tree} currentUrl={page.url} />}
     >
-      <GuidePage page={page} />
+      <DocsPageFrame page={page} />
     </AppShell>
   );
 }
 
+function DocsPageFrame({ page }: { page: DocsPageData }) {
+  switch (page.kind) {
+    case "guide":
+      return <MdxDocsPage page={page} />;
+    case "component":
+      return <MdxDocsPage page={page} footer={<ApiReference baseDocs={page.baseDocs} />} />;
+    case "catalog":
+      return <CatalogPage page={page} />;
+  }
+}
+
 /**
- * The guide page frame, from the `documentation-technical` template. The page itself scrolls,
- * rather than `LayoutContent`, so the `Outline` beside it can follow the headings as they pass.
+ * The frame of guide pages, from the `documentation-technical` template, and of component pages,
+ * from `documentation-design`. A component page's live preview and examples come from its MDX.
  *
- * The table of contents is as wide as the sidebar, so the content between them is centred on the
- * viewport. It keeps that width on pages without headings, so content doesn't shift between pages.
+ * The page itself scrolls, rather than `LayoutContent`, so the `Outline` beside it can follow the
+ * headings as they pass. The table of contents is as wide as the sidebar, so the content between
+ * them is centred on the viewport. It keeps that width on pages without headings, so content
+ * doesn't shift between pages.
  */
-function GuidePage({ page }: { page: DocsPageData }) {
+function MdxDocsPage({ page, footer }: { page: DocsPageData; footer?: ReactNode }) {
   return (
     <Layout
       height="auto"
@@ -61,11 +79,80 @@ function GuidePage({ page }: { page: DocsPageData }) {
             <VStack gap={4}>
               <Suspense>{contentLoader.useContent(page.path)}</Suspense>
             </VStack>
+            {footer}
             <DocsPagination previous={page.previous} next={page.next} />
           </VStack>
         </LayoutContent>
       }
       end={<DocsOutline toc={page.toc} />}
+    />
+  );
+}
+
+/** Closes a component page by pointing to the component in the base library's docs. */
+function ApiReference({ baseDocs }: { baseDocs?: string }) {
+  if (!baseDocs) return null;
+
+  return (
+    <VStack gap={4}>
+      <AnchorHeading level={2} id={API_REFERENCE.id}>
+        {API_REFERENCE.title}
+      </AnchorHeading>
+      <Text as="p" display="block">
+        See the{" "}
+        <Link href={baseDocs} isExternalLink>
+          Astryx documentation
+        </Link>{" "}
+        for more information.
+      </Text>
+    </VStack>
+  );
+}
+
+/**
+ * The catalog page frame, from the `documentation` template: a banner, then a card for each other
+ * page of the section. It has no MDX body and no table of contents.
+ */
+function CatalogPage({ page }: { page: DocsPageData }) {
+  return (
+    <Layout
+      height="auto"
+      content={
+        <LayoutContent isScrollable={false} padding={0}>
+          <VStack gap={8} padding={6} width="100%" maxWidth="64rem" className="mx-auto">
+            <Card variant="gray" padding={10}>
+              <VStack gap={4}>
+                <Heading level={1}>{page.title}</Heading>
+                {page.description && (
+                  <Text type="large" color="secondary">
+                    {page.description}
+                  </Text>
+                )}
+              </VStack>
+            </Card>
+            <Grid columns={{ minWidth: 240, max: 3 }} gap={4}>
+              {toCatalogEntries(page.tree, page.url).map((entry) => (
+                <RouteClickableCard
+                  key={entry.url}
+                  label={`Open ${entry.title}`}
+                  href={entry.url}
+                  height="100%"
+                >
+                  <VStack gap={1}>
+                    <Text weight="bold">{entry.title}</Text>
+                    {entry.description && (
+                      <Text color="secondary" maxLines={3}>
+                        {entry.description}
+                      </Text>
+                    )}
+                  </VStack>
+                </RouteClickableCard>
+              ))}
+            </Grid>
+            <DocsPagination previous={page.previous} next={page.next} />
+          </VStack>
+        </LayoutContent>
+      }
     />
   );
 }

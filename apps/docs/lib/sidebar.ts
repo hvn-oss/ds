@@ -28,8 +28,11 @@ export function toSidebarSections(tree: NavTree, currentUrl: string): SidebarSec
       current = { title: node.name ?? "", items: [] };
       sections.push(current);
     } else if (node.type === "folder") {
-      const nodes = node.index ? [node.index, ...node.children] : node.children;
-      sections.push({ title: node.name, items: toItems(nodes, currentUrl) });
+      const overview = node.index ? toItems([node.index], currentUrl).map(asOverview) : [];
+      sections.push({
+        title: node.name,
+        items: [...overview, ...toItems(node.children, currentUrl)],
+      });
       current = undefined;
     } else {
       if (!current) {
@@ -41,6 +44,11 @@ export function toSidebarSections(tree: NavTree, currentUrl: string): SidebarSec
   }
 
   return sections;
+}
+
+/** A section's index page, such as its catalog page, is listed first as the section's overview. */
+function asOverview(item: SidebarItem): SidebarItem {
+  return { ...item, label: "Overview" };
 }
 
 function toItems(nodes: NavNode[], currentUrl: string): SidebarItem[] {

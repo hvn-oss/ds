@@ -39,14 +39,14 @@ describe("toSidebarSections", () => {
     ]);
   });
 
-  test("a top-level folder is a section that starts with its index page", () => {
+  test("a top-level folder is a section that starts with its index page, labelled Overview", () => {
     const tree: NavTree = {
       name: "Docs",
       children: [
         {
           type: "folder",
           name: "Components",
-          index: { type: "page", name: "Overview", url: "/docs/components" },
+          index: { type: "page", name: "Components", url: "/docs/components" },
           children: [{ type: "page", name: "Button", url: "/docs/components/button" }],
         },
       ],

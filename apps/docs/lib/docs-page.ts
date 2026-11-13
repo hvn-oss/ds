@@ -3,6 +3,7 @@ import { HTTPException } from "hono/http-exception";
 import type { Href } from "void/routes";
 import { getBreadcrumbItems } from "fumadocs-core/breadcrumb";
 import { findNeighbour, type Node, type Root } from "fumadocs-core/page-tree";
+import { API_REFERENCE_TOC_ITEM } from "./api-reference";
 import type { DocsPageKind } from "./frontmatter";
 import { source } from "./source";
 
@@ -12,6 +13,7 @@ import { source } from "./source";
 export interface NavPage {
   type: "page";
   name: string;
+  description?: string;
   url: Href;
   external?: boolean;
 }
@@ -74,6 +76,12 @@ export function getDocsPage(slugs: string[]): DocsPageData {
   if (!page) throw new HTTPException(404, { message: "Docs page not found" });
 
   const neighbours = findNeighbour(source.pageTree, page.url);
+  const toc: TocItem[] = page.data.toc.map((item) => ({
+    title: toText(item.title),
+    url: item.url,
+    depth: item.depth,
+  }));
+  if (page.data.kind === "component") toc.push(API_REFERENCE_TOC_ITEM);
 
   return {
     path: page.path,
@@ -82,11 +90,7 @@ export function getDocsPage(slugs: string[]): DocsPageData {
     description: page.data.description,
     kind: page.data.kind,
     baseDocs: page.data.baseDocs,
-    toc: page.data.toc.map((item) => ({
-      title: toText(item.title),
-      url: item.url,
-      depth: item.depth,
-    })),
+    toc,
     tree: toNavTree(source.pageTree),
     breadcrumbs: getBreadcrumbItems(page.url, source.pageTree, { includePage: true }).map(
       (item) => ({ name: toText(item.name), url: item.url ? toHref(item.url) : undefined }),
@@ -122,8 +126,19 @@ function toNavNode(node: Node): NavNode {
   }
 }
 
-function toNavPage(node: { name: ReactNode; url: string; external?: boolean }): NavPage {
-  return { type: "page", name: toText(node.name), url: toHref(node.url), external: node.external };
+function toNavPage(node: {
+  name: ReactNode;
+  description?: ReactNode;
+  url: string;
+  external?: boolean;
+}): NavPage {
+  return {
+    type: "page",
+    name: toText(node.name),
+    description: node.description == null ? undefined : toText(node.description),
+    url: toHref(node.url),
+    external: node.external,
+  };
 }
 
 function toNavLink(node: { name: ReactNode; url: string }): NavLink {

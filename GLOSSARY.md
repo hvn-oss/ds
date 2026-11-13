@@ -33,7 +33,7 @@ A single page of documentation, written as content rather than code.
 _Avoid_: Article, doc
 
 **Section**:
-A named group of docs pages shown together in the sidebar, such as "Getting Started" or "Components".
+A named group of docs pages shown together in the sidebar, such as "Getting Started" or "Components". A section's index page is listed first in the sidebar, as Overview.
 _Avoid_: Category, folder, group
 
 ### Kinds of docs page
