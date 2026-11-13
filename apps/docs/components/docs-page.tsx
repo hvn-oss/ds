@@ -117,9 +117,12 @@ function CatalogPage({ page }: { page: DocsPageData }) {
   return (
     <Layout
       height="auto"
+      contentWidth="64rem"
       content={
-        <LayoutContent isScrollable={false} padding={0}>
-          <VStack gap={8} padding={6} width="100%" maxWidth="64rem" className="mx-auto">
+        // With no tables or dividers to bleed, the padding can sit on `LayoutContent`, which
+        // centres it within `contentWidth`.
+        <LayoutContent isScrollable={false} padding={6}>
+          <VStack gap={8}>
             <Card variant="gray" padding={10}>
               <VStack gap={4}>
                 <Heading level={1}>{page.title}</Heading>
@@ -165,7 +168,7 @@ function DocsOutline({ toc }: { toc: TocItem[] }) {
     <LayoutPanel
       isScrollable={false}
       padding={6}
-      className={`${SIDEBAR_WIDTH_CLASS} sticky top-0 shrink-0 self-start max-md:hidden`}
+      className={`${SIDEBAR_WIDTH_CLASS} sticky top-0 self-start max-md:hidden`}
     >
       {toc.length > 0 && (
         <VStack gap={2}>

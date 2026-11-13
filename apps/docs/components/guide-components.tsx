@@ -1,6 +1,7 @@
 import { Children, createContext, isValidElement, use, type ReactNode } from "react";
 import { Banner } from "@astryxdesign/core/Banner";
 import { Card } from "@astryxdesign/core/Card";
+import { Center } from "@astryxdesign/core/Center";
 import { Heading } from "@astryxdesign/core/Heading";
 import { HStack } from "@astryxdesign/core/HStack";
 import { StackItem } from "@astryxdesign/core/Stack";
@@ -35,13 +36,17 @@ export function Step({ title, children }: { title: string; children?: ReactNode 
 
   return (
     <HStack as="li" gap={4} vAlign="start">
-      <Text
-        weight="semibold"
-        hasTabularNumbers
-        className="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted"
-      >
-        {number}
-      </Text>
+      <StackItem>
+        <Center
+          width="var(--spacing-8)"
+          height="var(--spacing-8)"
+          className="rounded-full bg-muted"
+        >
+          <Text weight="semibold" hasTabularNumbers>
+            {number}
+          </Text>
+        </Center>
+      </StackItem>
       <StackItem size="fill">
         <VStack gap={3}>
           <Heading level={3}>{title}</Heading>
