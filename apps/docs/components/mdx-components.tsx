@@ -22,6 +22,7 @@ import {
   TableRow,
 } from "@astryxdesign/core/Table";
 import { Text } from "@astryxdesign/core/Text";
+import { Callout, NextSteps, Step, Steps } from "./guide-components";
 import { RouterLink } from "./router-link";
 
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
@@ -129,4 +130,8 @@ export const mdxComponents: MDXComponents = {
       <InBlockquoteContext value={true}>{children}</InBlockquoteContext>
     </Blockquote>
   ),
+  Steps,
+  Step,
+  Callout,
+  NextSteps,
 };

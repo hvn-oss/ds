@@ -3,11 +3,12 @@ import type { NavTree } from "#/lib/docs-page.ts";
 import { toSidebarSections, type SidebarItem } from "#/lib/sidebar.ts";
 import { RouteSideNavItem } from "./route-links";
 
+/** The sidebar's width. The guide page's table of contents matches it, to centre the content. */
+export const SIDEBAR_WIDTH_CLASS = "w-60";
+
 export function DocsSidebar({ tree, currentUrl }: { tree: NavTree; currentUrl: string }) {
   return (
-    <SideNav
-      resizable={{ defaultWidth: 240, minWidth: 180, maxWidth: 400, autoSaveId: "docs-sidebar" }}
-    >
+    <SideNav className={SIDEBAR_WIDTH_CLASS}>
       {toSidebarSections(tree, currentUrl).map((section, index) => (
         <SideNavSection
           key={`${index}-${section.title}`}
