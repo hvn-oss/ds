@@ -13,6 +13,7 @@ This doc depends on decisions made in earlier maps. When a ticket's decision cha
 - **Frame names carry the variant.** Paper has no reusable components, so each component frame is named by its prop values joined with `/`, such as `primary / md / no-loading / enabled / hover`. The order comes from the component's Astryx props and is specific to each component. A `state` key (`rest`, `hover`, `pressed`, `focus`) always comes last. A true boolean is written as the prop name and a false one as `no-<prop>`. Defaults are always written out. A frame key note at the top-left of the variant grid gives the order. See [Design file structure and frame conventions](https://github.com/hvn-oss/ds/issues/17).
 - **Design file layout.** The Design file has one page per category and one artboard per component or template, following the layout in [Design file structure and frame conventions](https://github.com/hvn-oss/ds/issues/17).
 - **Light first.** Component frames and template artboards are drawn in light mode only. Dark mode comes after the light set.
+- **Visual direction.** hvn is quiet, precise and mostly monochrome. Neutrals and hairlines carry the structure. Blue is the primary colour, used for primary buttons, focus, links and selection. Semantic colours mark status, and categorical hues are for charts, data and icons whose colour means something. Inline UI icons stay neutral. Neutrals are pure grey everywhere. Controls are ≈8px rounded rectangles, and pills are only for chips, badges and segment tracks. Density follows Astryx's medium defaults, and data-heavy views use `sm` controls and `compact` density. Shadows are only for floating layers. See [hvn visual direction](https://github.com/hvn-oss/ds/issues/18).
 
 ## Components
 
@@ -32,7 +33,7 @@ One map per category, each covering every component in that category of the Astr
 
 Only the templates the references inform:
 
-- Landing page (Beside)
+- Landing page (Beside). Marketing shares the app's theme and tokens, and differs only in composition: `display-*` text styles, Beside's section rhythm (80→112px) and framed product visuals. This map decides whether marketing gets any decorative gradient. See [hvn visual direction](https://github.com/hvn-oss/ds/issues/18).
 - Auth and onboarding (Attio)
 - App shell and dashboard (ElevenLabs, Attio)
 - Table views (Attio)
