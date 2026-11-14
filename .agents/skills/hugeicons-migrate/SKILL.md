@@ -1,6 +1,6 @@
 ---
 name: hugeicons-migrate
-description: Migrate a project's icons to Hugeicons — from the deprecated hugeicons-react / @hugeicons/react-pro / hugeicons-react-native packages, from @hugeicons/core-free-icons 4.2 to 4.3, or from lucide-react, @heroicons/react, or react-icons. Use whenever a project imports any of those packages and the task is to switch, replace, upgrade, or migrate icons to Hugeicons, or when you see a deprecated hugeicons-react import in code you are editing.
+description: Migrate a project's icons to Hugeicons — from the deprecated hugeicons-react / @hugeicons/react-pro / hugeicons-react-native packages, from @hugeicons/core-free-icons 4.2 to 4.3 or 4.3 to 4.4, or from lucide-react, @heroicons/react, or react-icons. Use whenever a project imports any of those packages and the task is to switch, replace, upgrade, or migrate icons to Hugeicons, or when you see a deprecated hugeicons-react import in code you are editing.
 ---
 
 # Migrate to Hugeicons
@@ -139,6 +139,9 @@ Say so and stop rather than improvising:
 
 - **`has no exported member 'X'`** — name isn't in the free catalog. Check the renamed table in
   `legacy-hugeicons.md` §5 first (covers legacy 0.x names and the 4.2 → 4.3 renames), then grep.
+- **Import is struck through as `@deprecated`** — 4.4 renamed it back to digits
+  (`LayoutThreeColumnIcon` → `Layout3ColumnIcon`). Use the name the deprecation message gives;
+  `legacy-hugeicons.md` §5 lists all 49.
 - **Icon renders but wrong glyph** — a numbered variant was picked blind (`Home03Icon` instead of
   `Home01Icon`). `01` is the canonical one; show the user the alternatives.
 - **Pro import fails** — the name exists only in a Pro package or the `.npmrc` auth is missing.

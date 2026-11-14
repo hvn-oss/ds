@@ -2,7 +2,7 @@
 
 The easiest source: since `@hugeicons/core-free-icons` 4.3 the free catalog carries **Lucide-
 compatible names** for most common icons (`TrashIcon`, `MenuIcon`, `XIcon`, `ChevronDownIcon`,
-`PanelLeftIcon`, `Grid2X2Icon`, …), and the two prop models are nearly identical.
+`PanelLeftIcon`, `Grid2x2Icon`, …), and the two prop models are nearly identical.
 
 ## 1. Detect
 
@@ -109,10 +109,10 @@ before it goes into code; never emit a name you haven't resolved.
 | `BarChart3`, `ChartColumnBig` | `ChartColumnBigIcon` | |
 | `BarChartHorizontal`, `ChartBar` | `BarChartHorizontalIcon` | |
 | `LineChart`, `ChartLine` | `ChartLineIcon` | |
-| `Columns`, `Columns2` | `LayoutTwoColumnIcon` | |
-| `Columns3` | `LayoutThreeColumnIcon` | |
-| `Rows`, `Rows2` | `RowsTwoIcon` | |
-| `Rows3` | `RowsThreeIcon` | |
+| `Columns`, `Columns2` | `Layout2ColumnIcon` | |
+| `Columns3` | `Layout3ColumnIcon` | |
+| `Rows`, `Rows2` | `Rows2Icon` | |
+| `Rows3` | `Rows3Icon` | |
 | `Sidebar` | `PanelLeftIcon` | |
 | `Maximize2` | `Maximize01Icon` | |
 | `Minimize2` | `Minimize01Icon` | |

@@ -168,13 +168,13 @@ const nav: { name: string; icon: IconSvgElement }[] = […]
 | `ChartPieIcon` | `PieChartIcon` | |
 | `PresentationChartLineIcon` / `BarIcon` | `PresentationLineChart01Icon` / `PresentationBarChart01Icon` | |
 | `Squares2X2Icon` | `LayoutGridIcon` | |
-| `SquaresPlusIcon` | `Grid2X2PlusIcon` | |
+| `SquaresPlusIcon` | `Grid2x2PlusIcon` | |
 | `Square3Stack3DIcon` | `Layers01Icon` | |
 | `Square2StackIcon`, `RectangleStackIcon` | `SquareStackIcon` | |
 | `CircleStackIcon` | `DatabaseIcon` | heroicons uses it for "database" |
 | `ListBulletIcon` | `ListIcon` | |
 | `TableCellsIcon` | `TableIcon` | |
-| `ViewColumnsIcon` | `LayoutThreeColumnIcon` | |
+| `ViewColumnsIcon` | `Layout3ColumnIcon` | |
 | `QueueListIcon` | `LayoutListIcon` | |
 | `RectangleGroupIcon` | `LayoutDashboardIcon` | |
 | `WindowIcon` | `AppWindowIcon` | |

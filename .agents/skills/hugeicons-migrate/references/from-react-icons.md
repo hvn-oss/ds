@@ -157,12 +157,12 @@ const items: { icon: IconSvgElement }[] = […]
 | `FaChartPie` | `PieChartIcon` | |
 | `FaChartLine` / `FaChartArea` | `ChartLineIcon` / `ChartAreaIcon` | |
 | `FaLayerGroup` | `Layers01Icon` | |
-| `FaTh` | `Grid3X3Icon` | |
+| `FaTh` | `Grid3x3Icon` | |
 | `FaThLarge` | `LayoutGridIcon` | |
 | `FaThList` | `LayoutListIcon` | |
 | `FaList`, `FaListUl` | `ListIcon` | |
 | `FaListOl` | `ListOrderedIcon` | |
-| `FaColumns` | `LayoutTwoColumnIcon` | |
+| `FaColumns` | `Layout2ColumnIcon` | |
 | `FaExpand` / `FaCompress` | `Maximize01Icon` / `Minimize01Icon` | |
 | `FaPrint` | `PrinterIcon` | |
 | `FaMobileAlt` | `SmartphoneIcon` | |

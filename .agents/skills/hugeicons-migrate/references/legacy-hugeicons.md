@@ -143,16 +143,6 @@ glyph; "nearest" means a different drawing of the same idea — show it to the u
 | `ArrangeByLettersZaIcon` | `ArrangeByLettersZAIcon` | ✓ |
 | `ArrangeByNumbers19Icon` | `ArrangeByNumbersOneNineIcon` | ✓ |
 | `ArrangeByNumbers91Icon` | `ArrangeByNumbersNineOneIcon` | ✓ |
-| `GoBackward5SecIcon` | `GoBackwardFiveSecIcon` | ✓ |
-| `GoForward5SecIcon` | `GoForwardFiveSecIcon` | ✓ |
-| `Html5Icon` | `HtmlFiveIcon` | ✓ |
-| `Layout2ColumnIcon` | `LayoutTwoColumnIcon` | ✓ |
-| `Layout2RowIcon` | `LayoutTwoRowIcon` | ✓ |
-| `Layout3ColumnIcon` | `LayoutThreeColumnIcon` | ✓ |
-| `Layout3RowIcon` | `LayoutThreeRowIcon` | ✓ |
-| `Mp302Icon` | `MpThree02Icon` | ✓ |
-| `Mp401Icon` | `MpFour01Icon` | ✓ |
-| `Mp402Icon` | `MpFour02Icon` | ✓ |
 | `Sorting19Icon` | `SortingOneNineIcon` | ✓ |
 | `Sorting91Icon` | `SortingNineOneIcon` | ✓ |
 | `SortingAz01Icon` | `SortingAZ01Icon` | ✓ |
@@ -162,8 +152,11 @@ glyph; "nearest" means a different drawing of the same idea — show it to the u
 | `FoursquareIcon` | removed — no free replacement | |
 | `TrademarkIcon`, `TrademarkCircleIcon` | `TradeMarkIcon` (capital M) | nearest |
 
-The pattern: digits that stand alone in a name are now spelled out (`5` → `Five`, `19` →
-`OneNine`), and two-letter abbreviations are upper-cased (`Az` → `AZ`).
+The pattern: digit pairs in sort and arrange names are spelled out (`19` → `OneNine`), and
+two-letter abbreviations are upper-cased (`Az` → `AZ`). Single digits are not: `Html5Icon`,
+`Layout3ColumnIcon`, `GoBackward5SecIcon` and `Mp401Icon` keep their legacy names in 4.4. Their
+spelled-out forms (`HtmlFiveIcon`, `LayoutThreeColumnIcon`, …) are deprecated aliases; see the
+4.3.x → 4.4.x table below.
 
 Pro packages (`@hugeicons/react-pro`, `@hugeicons/react-native-pro`) additionally had:
 
@@ -204,6 +197,42 @@ and removed these 36. Anyone upgrading a working 4.2 project hits them as
 | `Gamepad2Icon` | `GamepadIcon` | nearest |
 | `Heading1Icon`, `Heading2Icon`, `Heading4Icon`, `Heading5Icon`, `Heading6Icon` | removed — the "H1…H6" glyphs are gone from the free set; `Heading01Icon`…`Heading06Icon` are plain "H" variants | |
 | `BottleWineIcon` | removed | |
+
+On 4.4 or later, apply the next table after this one: four of the 4.3 successors above
+(`ClockHour…`, `CalendarDateOneIcon`, `CircleSlashTwoIcon`, `BookUpTwoIcon`) are deprecated there.
+
+### `@hugeicons/core-free-icons` 4.3.x → 4.4.x
+
+4.4 renamed these 49 exports back to digits. The 4.3 names still build as `@deprecated` aliases
+(the IDE strikes them through) and go away in the next major, so switch to the 4.4 name. Each
+`…FreeIcons` alias of a 4.3 name is deprecated the same way.
+
+| 4.3.x name (deprecated) | 4.4.x | |
+|---|---|---|
+| `ClockHourOneIcon` … `ClockHourNineIcon` | `ClockHour1Icon` … `ClockHour9Icon` | ✓ |
+| `CalendarDateOneIcon` | `CalendarDate1Icon` | ✓ |
+| `CircleSlashTwoIcon` | `CircleSlash2Icon` | ✓ |
+| `BookUpTwoIcon` | `BookUp2Icon` | ✓ |
+| `ArrowDownAzIcon`, `ArrowUpZaIcon` | `ArrowDownAZIcon`, `ArrowUpZAIcon` | ✓ |
+| `HtmlFiveIcon`, `CssThreeIcon`, `WThreeSchoolsIcon` | `Html5Icon`, `Css3Icon`, `W3SchoolsIcon` | ✓ |
+| `LayoutTwoColumnIcon`, `LayoutThreeColumnIcon` | `Layout2ColumnIcon`, `Layout3ColumnIcon` | ✓ |
+| `LayoutTwoRowIcon`, `LayoutThreeRowIcon` | `Layout2RowIcon`, `Layout3RowIcon` | ✓ |
+| `RowsTwoIcon`, `RowsThreeIcon`, `RowsFourIcon` | `Rows2Icon`, `Rows3Icon`, `Rows4Icon` | ✓ |
+| `ColumnsThreeCogIcon` | `Columns3CogIcon` | ✓ |
+| `Grid2X2Icon`, `Grid2X2CheckIcon`, `Grid2X2PlusIcon`, `Grid2X2XIcon` | `Grid2x2Icon`, `Grid2x2CheckIcon`, `Grid2x2PlusIcon`, `Grid2x2XIcon` | ✓ |
+| `Grid3X2Icon`, `Grid3X3Icon` | `Grid3x2Icon`, `Grid3x3Icon` | ✓ |
+| `GoBackwardFiveSecIcon`, `GoForwardFiveSecIcon` | `GoBackward5SecIcon`, `GoForward5SecIcon` | ✓ |
+| `MpThree02Icon`, `MpFourIcon`, `MpFour01Icon`, `MpFour02Icon` | `Mp302Icon`, `Mp4Icon`, `Mp401Icon`, `Mp402Icon` | ✓ |
+| `MusicThreeIcon`, `DiscTwoIcon`, `DiscThreeIcon` | `Music3Icon`, `Disc2Icon`, `Disc3Icon` | ✓ |
+| `FolderGitTwoIcon`, `FolderSearchTwoIcon` | `FolderGit2Icon`, `FolderSearch2Icon` | ✓ |
+| `NavigationTwoIcon`, `NavigationTwoOffIcon` | `Navigation2Icon`, `Navigation2OffIcon` | ✓ |
+| `TallyOneIcon` … `TallyFiveIcon` | `Tally1Icon` … `Tally5Icon` | ✓ |
+
+To list the deprecated names in the installed version:
+
+```bash
+grep -A1 '@deprecated Renamed' node_modules/@hugeicons/core-free-icons/dist/types/index.d.ts
+```
 
 ## 6. Bulk procedure
 
