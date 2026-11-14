@@ -176,15 +176,18 @@ catalogs:
     '@changesets/cli':
       specifier: ^3.0.3
       version: 3.0.3
-    '@fontsource-variable/figtree':
+    '@fontsource-variable/inter':
       specifier: ^5.3.0
       version: 5.3.0
     '@fontsource-variable/jetbrains-mono':
       specifier: ^5.3.0
       version: 5.3.0
-    '@fontsource-variable/montserrat':
-      specifier: ^5.3.0
-      version: 5.3.0
+    '@hugeicons/core-free-icons':
+      specifier: ^4.4.0
+      version: 4.4.0
+    '@hugeicons/react':
+      specifier: ^1.1.10
+      version: 1.1.10
     '@stylexjs/stylex':
       specifier: ^0.19.1
       version: 0.19.1
@@ -323,9 +326,12 @@ importers:
 
   packages/ds:
     dependencies:
-      lucide-react:
+      '@hugeicons/core-free-icons':
         specifier: 'catalog:'
-        version: 1.71.0(@types/react@19.3.0)(react@19.3.1)
+        version: 4.4.0
+      '@hugeicons/react':
+        specifier: 'catalog:'
+        version: 1.1.10(react@19.3.1)
     devDependencies:
       '@astryxdesign/cli':
         specifier: 'catalog:'
@@ -333,13 +339,10 @@ importers:
       '@astryxdesign/core':
         specifier: 'catalog:'
         version: 0.7.11(@stylexjs/stylex@0.19.1)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      '@fontsource-variable/figtree':
+      '@fontsource-variable/inter':
         specifier: 'catalog:'
         version: 5.3.0
       '@fontsource-variable/jetbrains-mono':
-        specifier: 'catalog:'
-        version: 5.3.0
-      '@fontsource-variable/montserrat':
         specifier: 'catalog:'
         version: 5.3.0
       '@types/node':
@@ -1277,14 +1280,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@fontsource-variable/figtree@5.3.0':
-    resolution: {integrity: sha512-VRVodD7OiG7apQwE8/2fMjaqpY/a0qRJqL5HtYj8CKIVps+9amaFcdfKmDIf7iqYQx6iPLlArVXAfKeIZmVcNQ==}
+  '@fontsource-variable/inter@5.3.0':
+    resolution: {integrity: sha512-OupL48va4JNofb97w6NYeF9S7W/kHNKM0Er8Dem5nqi4jeOLrVJDoE8tZEpnMJmtkvNbB1EIPPwHcdkF6b1oUA==}
 
   '@fontsource-variable/jetbrains-mono@5.3.0':
     resolution: {integrity: sha512-F32xpS2NsGYoQi2ADSkKTgpJj7ozajsGgDJ8woTnqjmIB+dxDIqImjl4pXZVEExu8UFZ2ndhmX18EBS/hdz3Lw==}
-
-  '@fontsource-variable/montserrat@5.3.0':
-    resolution: {integrity: sha512-7PaZoxaxrWLAyrhO46v65An9LhUhfkTExWLhfbywYZCnZEgg/W1rEHnlNmZKjNZ3nJTVYyicqxlJt10z/26yTA==}
 
   '@formatjs/fast-memoize@3.1.7':
     resolution: {integrity: sha512-zXfhLpvA6T7+efdt9JLbBwZ00tT7NsBMDVnDu8rpHeNNv8KfRZAMo2gkG0k9lK/Nzc//3kJ9pImsfuJxk3KhUA==}
@@ -1297,6 +1297,14 @@ packages:
 
   '@fumari/image-size@0.1.1':
     resolution: {integrity: sha512-iaiV2wyzJ4mW358NX4CX3yGit+WjKYzpaQ+rldK9BjL/5jFpeV6ruWnZVq7MEyMn3Gd0DLi8g/79NZAAQaGscw==}
+
+  '@hugeicons/core-free-icons@4.4.0':
+    resolution: {integrity: sha512-7Mz8bmGoY6tZ6l3C2TXwNMLVSr0I8HPwjjFIERAuJFj3rWwLxdF2ZLkDqdrVuEE1dx5b/VXyIsP4WoSU6Q40KQ==}
+
+  '@hugeicons/react@1.1.10':
+    resolution: {integrity: sha512-9tAsd92yMVVGP+E+d8cM+wc0VnXuYZHNbWQi7TOe8k2neawmhiaFmVFbzyruejhOMa197/LbgvSED32ayUo3ZA==}
+    peerDependencies:
+      react: '>=16.0.0'
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -5196,11 +5204,9 @@ snapshots:
   '@esbuild/win32-x64@0.28.2':
     optional: true
 
-  '@fontsource-variable/figtree@5.3.0': {}
+  '@fontsource-variable/inter@5.3.0': {}
 
   '@fontsource-variable/jetbrains-mono@5.3.0': {}
-
-  '@fontsource-variable/montserrat@5.3.0': {}
 
   '@formatjs/fast-memoize@3.1.7': {}
 
@@ -5211,6 +5217,12 @@ snapshots:
   '@formatjs/icu-skeleton-parser@2.1.11': {}
 
   '@fumari/image-size@0.1.1': {}
+
+  '@hugeicons/core-free-icons@4.4.0': {}
+
+  '@hugeicons/react@1.1.10(react@19.3.1)':
+    dependencies:
+      react: 19.3.1
 
   '@img/colour@1.1.0': {}
 

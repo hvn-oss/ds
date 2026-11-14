@@ -16,7 +16,7 @@ export default {
         },
         {
           type: "prose",
-          text: "HVN uses Montserrat for headings, Figtree for body text, and JetBrains Mono for code. theme add imports the exported @hvn-oss/ds/themes/hvn.fonts.css stylesheet, which self-hosts all three as variable fonts.",
+          text: "HVN uses Inter for body text and headings, and JetBrains Mono for code. theme add imports the exported @hvn-oss/ds/themes/hvn.fonts.css stylesheet, which self-hosts both as variable fonts. Icons are free Hugeicons (stroke rounded), from @hugeicons/core-free-icons.",
         },
       ],
     },

@@ -32,14 +32,14 @@
     "clean": "git clean -xdf node_modules dist"
   },
   "dependencies": {
-    "lucide-react": "catalog:"
+    "@hugeicons/core-free-icons": "catalog:",
+    "@hugeicons/react": "catalog:"
   },
   "devDependencies": {
     "@astryxdesign/cli": "catalog:",
     "@astryxdesign/core": "catalog:",
-    "@fontsource-variable/figtree": "catalog:",
+    "@fontsource-variable/inter": "catalog:",
     "@fontsource-variable/jetbrains-mono": "catalog:",
-    "@fontsource-variable/montserrat": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@typescript/typescript6": "catalog:",
