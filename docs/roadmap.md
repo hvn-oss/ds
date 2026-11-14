@@ -14,6 +14,7 @@ This doc depends on decisions made in earlier maps. When a ticket's decision cha
 - **Design file layout.** The Design file has one page per category and one artboard per component or template, following the layout in [Design file structure and frame conventions](https://github.com/hvn-oss/ds/issues/17).
 - **Light first.** Component frames and template artboards are drawn in light mode only. Dark mode comes after the light set.
 - **Visual direction.** hvn is quiet, precise and mostly monochrome. Neutrals and hairlines carry the structure. Blue is the primary colour, used for primary buttons, focus, links and selection. Semantic colours mark status, and categorical hues are for charts, data and icons whose colour means something. Inline UI icons stay neutral. Neutrals are pure grey everywhere. Controls are ≈8px rounded rectangles, and pills are only for chips, badges and segment tracks. Density follows Astryx's medium defaults, and data-heavy views use `sm` controls and `compact` density. Shadows are only for floating layers. See [hvn visual direction](https://github.com/hvn-oss/ds/issues/18).
+- **Colour.** Surfaces are flat: a white page and white panels in light mode, with hierarchy from hairlines. Input and secondary-control outlines (`--color-border-emphasized`) are deliberately quiet and fall below WCAG's 3:1 non-text contrast, so components that rely on an outline must add another cue, such as a label, a fill or the focus ring. See [Colour foundation](https://github.com/hvn-oss/ds/issues/19).
 
 ## Components
 
