@@ -18,6 +18,10 @@ _Avoid_: Core, upstream
 A named set of colours, fonts and tokens that gives the base library the design system's look. `hvn` is the only theme today.
 _Avoid_: Skin, palette
 
+**Semantic icon**:
+A named icon role the base library asks for, such as `close` or `warning`, which the theme fills with a specific icon.
+_Avoid_: Icon slot, icon key, icon alias
+
 **Design file**:
 The Paper file where the design system's look is designed and documented, as pages of artboards. The theme is its counterpart in code.
 _Avoid_: Figma file, design library, Paper doc
