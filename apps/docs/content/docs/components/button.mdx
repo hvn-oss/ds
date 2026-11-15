@@ -9,7 +9,7 @@ baseDocs: https://astryx.atmeta.com/components/Button
 
 ## Usage
 
-Use a button for an action on the current page. To go to another page, use a link instead. Give each view at most one `primary` button, for the action most people take next.
+Use a button for an action on the current page. To go to another page, use a [link](/docs/components/link) instead. Give each view at most one `primary` button, for the action most people take next.
 
 ```tsx
 import { Button } from "@astryxdesign/core/Button";
@@ -21,12 +21,24 @@ import { Button } from "@astryxdesign/core/Button";
 
 <Example name="button/variants" title="Variants">
 
-`variant` sets the button's emphasis. `secondary` is the default; keep `destructive` for actions that delete or can't be undone.
+`variant` sets the button's emphasis. `secondary` is the default: an outline with no fill, which is the only thing that sets it apart from `ghost`. Keep `destructive` for actions that delete or can't be undone; its light red fill stays clear without being as loud as the primary.
+
+</Example>
+
+<Example name="button/sizes" title="Sizes">
+
+`size` sets the height: 28, 32 or 36px. On touch screens below the `lg` breakpoint, each size grows to 32, 36 or 40px, so a button stays easy to tap without a layout of its own.
 
 </Example>
 
 <Example name="button/with-icon" title="With an icon">
 
 `icon` adds an icon before the label, and `endContent` adds one after it. The label stays, so the button keeps its accessible name.
+
+</Example>
+
+<Example name="button/states" title="Loading and disabled">
+
+`clickAction` shows a spinner while its promise is pending; click **Save** to see it. `isLoading` sets the spinner yourself. A loading button stays focusable, so a keyboard user keeps their place. `isDisabled` dims the button to half opacity.
 
 </Example>

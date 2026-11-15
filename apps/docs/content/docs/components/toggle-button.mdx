@@ -1,0 +1,38 @@
+---
+title: Toggle button
+description: A button that stays on or off, such as bold or star.
+kind: component
+baseDocs: https://astryx.atmeta.com/components/ToggleButton
+---
+
+<Preview name="toggle-button/default" />
+
+## Usage
+
+Use a toggle button for an on/off choice that acts straight away, such as bold in an editor or starring a record. When it's on, it keeps a grey fill and its label turns semibold; it doesn't turn blue. For a setting that persists, use a switch instead. For a one-off action, use a [button](/docs/components/button).
+
+Keep the label the same when it's on and off; the fill shows the change.
+
+```tsx
+import { ToggleButton } from "@astryxdesign/core/ToggleButton";
+
+const [isStarred, setIsStarred] = useState(false);
+
+<ToggleButton label="Star" isPressed={isStarred} onPressedChange={setIsStarred}>
+  Star
+</ToggleButton>;
+```
+
+## Examples
+
+<Example name="toggle-button/group" title="Group">
+
+`ToggleButtonGroup` joins related toggles and owns their state. With `type="multiple"`, any number can be on. Give each toggle a `value`; an icon-only toggle uses its `label` as its accessible name and tooltip.
+
+</Example>
+
+<Example name="toggle-button/single-select" title="Single select">
+
+With `type="single"`, turning one toggle on turns the others off, and pressing the one that's on turns it off, so `value` can be `null`. When one option must always be selected, use a [segmented control](/docs/components/segmented-control) instead.
+
+</Example>

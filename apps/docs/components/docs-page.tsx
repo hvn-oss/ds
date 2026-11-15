@@ -124,7 +124,7 @@ function ApiReference({ baseDocs }: { baseDocs?: string }) {
       </AnchorHeading>
       <Text as="p" display="block">
         See the{" "}
-        <Link href={baseDocs} isExternalLink>
+        <Link href={baseDocs} isExternalLink hasUnderline>
           Astryx documentation
         </Link>{" "}
         for more information.

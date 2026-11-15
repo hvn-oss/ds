@@ -1,0 +1,38 @@
+---
+title: Button group
+description: Joins related buttons into one connected control, such as zoom controls or a split button.
+kind: component
+baseDocs: https://astryx.atmeta.com/components/ButtonGroup
+---
+
+<Preview name="button-group/default" />
+
+## Usage
+
+Use a button group for two to four actions on the same thing. Give every member the same variant, so the group reads as one control: grouped secondaries share a single 1px seam. The group is one Tab stop, and the arrow keys move between its buttons. Its `label` names it for screen readers.
+
+To switch between views or modes, use a [segmented control](/docs/components/segmented-control) instead. For more than four actions, use a [toolbar](/docs/components/toolbar) or a [dropdown menu](/docs/components/dropdown-menu).
+
+```tsx
+import { Button } from "@astryxdesign/core/Button";
+import { ButtonGroup } from "@astryxdesign/core/ButtonGroup";
+
+<ButtonGroup label="Zoom">
+  <Button label="Zoom out" />
+  <Button label="Zoom in" />
+</ButtonGroup>;
+```
+
+## Examples
+
+<Example name="button-group/split-button" title="Split button">
+
+A split button is a labelled button with an icon-only chevron that opens a [dropdown menu](/docs/components/dropdown-menu) of other ways to do the same thing. The chevron passes its trigger props from `renderTrigger` to an `IconButton`.
+
+</Example>
+
+<Example name="button-group/icon-buttons" title="Icon buttons">
+
+Each `IconButton` in a group needs a `label`, which also becomes its tooltip.
+
+</Example>
