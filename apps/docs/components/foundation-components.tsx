@@ -23,6 +23,7 @@ import { TextInput } from "@astryxdesign/core/TextInput";
 import { Theme } from "@astryxdesign/core/theme";
 import { VStack } from "@astryxdesign/core/VStack";
 import {
+  controlSizes,
   docsTheme,
   formatColour,
   formatLength,
@@ -31,6 +32,7 @@ import {
   MODES,
   splitLayers,
   tokenValue,
+  touchCondition,
   typeStyleValues,
   type Mode,
 } from "#/lib/foundations.ts";
@@ -483,6 +485,43 @@ export function TypeStyles() {
         })}
       </TableBody>
     </Table>
+  );
+}
+
+/** Each control size's height at the desktop scale and under the touch rule. */
+export function ControlSizes() {
+  return (
+    <VStack gap={2}>
+      <Table density="compact">
+        <TableHeader>
+          <TableRow>
+            <TableHeaderCell>Size</TableHeaderCell>
+            <TableHeaderCell>Token</TableHeaderCell>
+            <TableHeaderCell>Desktop</TableHeaderCell>
+            <TableHeaderCell>Touch</TableHeaderCell>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {controlSizes().map(({ size, token, desktop, touch }) => (
+            <TableRow key={size}>
+              <TableCell>
+                <Code>{size}</Code>
+              </TableCell>
+              <TableCell>
+                <Code>{token}</Code>
+              </TableCell>
+              <TableCell>
+                <Text hasTabularNumbers>{desktop}px</Text>
+              </TableCell>
+              <TableCell>
+                <Text hasTabularNumbers>{touch}px</Text>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <Text type="supporting">Touch applies on: {touchCondition()}.</Text>
+    </VStack>
   );
 }
 

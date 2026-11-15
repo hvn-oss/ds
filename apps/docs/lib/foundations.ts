@@ -88,6 +88,53 @@ export function splitLayers(value: string): string[] {
   return layers;
 }
 
+const CONTROL_SIZES = ["sm", "md", "lg"] as const;
+
+/** The adaptation rule that resizes controls: the one that writes `--size-element-*`. */
+function touchRule() {
+  const rule = docsTheme.__adaptations?.rules.find(
+    ({ value }) => value.tokens?.["--size-element-md"] != null,
+  );
+  if (!rule) throw new Error(`The ${docsTheme.name} theme has no rule for --size-element-*`);
+  return rule;
+}
+
+export interface ControlSize {
+  size: (typeof CONTROL_SIZES)[number];
+  token: string;
+  /** Height in px at the desktop scale. */
+  desktop: string;
+  /** Height in px while the touch rule matches. */
+  touch: string;
+}
+
+/** Each control size's desktop height and its height under the touch rule. */
+export function controlSizes(): ControlSize[] {
+  const { tokens = {} } = touchRule().value;
+  return CONTROL_SIZES.map((size) => {
+    const token = `--size-element-${size}`;
+    return {
+      size,
+      token,
+      desktop: round(toPx(tokenValue(token, "light"))),
+      touch: round(toPx(String(tokens[token as keyof typeof tokens]))),
+    };
+  });
+}
+
+/** The touch rule's condition in words: `Coarse pointer, below lg (1024px)`. */
+export function touchCondition(): string {
+  const { when } = touchRule();
+  const points = docsTheme.__adaptations!.widthBreakpoints;
+  const parts = [
+    when.pointer && `${when.pointer} pointer`,
+    when.width?.from && `from ${when.width.from} (${points[when.width.from]}px)`,
+    when.width?.below && `below ${when.width.below} (${points[when.width.below]}px)`,
+  ].filter(Boolean);
+  const text = parts.join(", ");
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
 /** An icon size's stroke, which scales with the glyph from the stock 1.5 on Hugeicons' 24 grid. */
 export function iconStroke(sizePx: number): string {
   return `${((1.5 * sizePx) / 24).toFixed(2)}px`;
