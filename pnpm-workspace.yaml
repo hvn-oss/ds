@@ -22,7 +22,6 @@ catalog:
   "@typescript/typescript6": ^6.0.2
   fumadocs-core: ^16.18.4
   fumadocs-mdx: ^15.5.3
-  lucide-react: ^1.71.0
   react: ^19.3.1
   react-dom: ^19.3.1
   tailwindcss: ^4.3.5
@@ -51,5 +50,3 @@ permissions:
 skills:
   dirs:
     - .agents/skills
-minimumReleaseAgeExclude:
-  - lucide-react@1.71.0

@@ -3,40 +3,18 @@ title: Theming
 description: What the hvn theme changes in Astryx, and how to build on it.
 ---
 
-The `hvn` theme gives Astryx components the hvn look. It is forked from the Astryx Stone theme: warm, earthy neutrals with a violet primary. Every colour, font and radius reaches components as a CSS variable, so apps style with tokens rather than raw values.
+The `hvn` theme gives Astryx components the hvn look: quiet and mostly monochrome, with pure-grey neutrals, flat white surfaces with hairlines, and blue as the one accent. Every colour, font and radius reaches components as a CSS variable, so apps style with tokens rather than raw values.
 
-> The theme isn't final yet, so its values may still change.
+## What the theme sets
 
-## Fonts
+| Foundation                                                   | In short                                                               |
+| ------------------------------------------------------------ | ---------------------------------------------------------------------- |
+| [Colour](/docs/foundations/colour)                           | A generated palette, with Tailwind's blue-600 as the accent            |
+| [Typography](/docs/foundations/typography)                   | Inter for text and headings, JetBrains Mono for code, on a 14px base   |
+| [Shape and elevation](/docs/foundations/shape-and-elevation) | Radii of 4, 8, 16 and 24px, 1px borders, and ring-and-shadow elevation |
+| [Icons](/docs/foundations/icons)                             | Free Hugeicons, stroke rounded, behind every semantic icon             |
 
-The theme self-hosts three variable fonts through `@hvn-oss/ds/themes/hvn.fonts.css`. `astryx theme add` imports that stylesheet for you.
-
-| Use      | Font           |
-| -------- | -------------- |
-| Headings | Montserrat     |
-| Body     | Figtree        |
-| Code     | JetBrains Mono |
-
-## Colours
-
-Colours come from a palette generated from Stone, with a light and a dark value for each token. The theme follows the system's colour scheme by default.
-
-| Role               | Colour                                      |
-| ------------------ | ------------------------------------------- |
-| Neutrals           | Warm Stone greys                            |
-| Primary buttons    | Violet                                      |
-| Secondary controls | Transparent, with an emphasised border      |
-| Code               | Stone syntax colours, from the same palette |
-
-## Radius
-
-| Token                | Value     |
-| -------------------- | --------- |
-| `--radius-inner`     | `0.25rem` |
-| `--radius-element`   | `0.5rem`  |
-| `--radius-container` | `0.75rem` |
-| `--radius-page`      | `1.5rem`  |
-| `--radius-full`      | `9999px`  |
+Each token has a light and a dark value, and the theme follows the system's colour scheme by default. The theme self-hosts its fonts through `@hvn-oss/ds/themes/hvn.fonts.css`, which `astryx theme add` imports for you.
 
 ## Customise the theme
 

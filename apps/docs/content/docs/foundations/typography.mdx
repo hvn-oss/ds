@@ -1,0 +1,56 @@
+---
+title: Typography
+description: Inter for text and headings, JetBrains Mono for code, on a compact 14px scale.
+---
+
+hvn sets everything in one family, Inter Variable, and code in JetBrains Mono Variable. Body text is 14px on a scale with a ratio of 1.2. Headings are medium weight, so hierarchy comes from size, position and spacing rather than heavy type. Display styles are pinned to 64, 48 and 36px, in regular weight with tight tracking.
+
+## Families
+
+Both fonts are OFL variable fonts from Fontsource: `@fontsource-variable/inter` and `@fontsource-variable/jetbrains-mono`. The theme self-hosts them through `@hvn-oss/ds/themes/hvn.fonts.css`. Inter's optical size axis gives large text its display cut, so there is no second display face.
+
+<FontFamilies />
+
+## Type styles
+
+Use the `type` prop on `Text` and the `level` prop on `Heading`, rather than setting sizes yourself. Sizes and line heights are in px at the desktop scale. Display styles have −0.03em tracking, and every other style has none. Heading 4 matches Label by choice.
+
+<TypeStyles />
+
+## Text colour
+
+Primary, secondary and accent text pass 4.5:1 in both modes. Disabled text is exempt. See [Colour](/docs/foundations/colour#text) for the values.
+
+<TextColours />
+
+## Touch and narrow
+
+Type adapts in two independent ways. The tables above, and the tokens in the Design file, keep the desktop values.
+
+### Touch floor
+
+On a coarse pointer below the `lg` breakpoint, the base goes from 14 to 16px at the same ratio, so the whole ramp grows ×1.14. 16px stops iOS Safari from zooming into inputs, and reads better at arm's length.
+
+| Style                      | Desktop                     | Touch floor                 |
+| -------------------------- | --------------------------- | --------------------------- |
+| `heading-1` … `heading-6`  | 24 · 20 · 17 · 14 · 12 · 10 | 28 · 23 · 19 · 16 · 13 · 11 |
+| `large`                    | 17                          | 19                          |
+| `body`, `label` and `code` | 14                          | 16                          |
+| `supporting`               | 12                          | 13                          |
+
+### Display by width
+
+Display sizes step down at the breakpoints, whatever the pointer. Tracking stays −0.03em, and the weight stays 400.
+
+| Style       | `lg` and up | `md` to `lg` | Below `md` |
+| ----------- | ----------- | ------------ | ---------- |
+| `display-1` | 64 / 72     | 48 / 56      | 36 / 44    |
+| `display-2` | 48 / 56     | 36 / 44      | 32 / 40    |
+| `display-3` | 36 / 44     | 30 / 38      | 30 / 38    |
+
+<NextSteps>
+
+- [Shape and elevation](/docs/foundations/shape-and-elevation) covers radii, borders and shadows.
+- [Colour](/docs/foundations/colour) lists every text colour token.
+
+</NextSteps>

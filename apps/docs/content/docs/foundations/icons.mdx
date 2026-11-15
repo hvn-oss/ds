@@ -1,0 +1,82 @@
+---
+title: Icons
+description: Free Hugeicons, stroke rounded, behind every semantic icon in Astryx.
+---
+
+hvn draws its icons from the free Hugeicons set, `@hugeicons/core-free-icons`, in the stroke rounded style. Glyphs sit on a 24px grid with the stock 1.5 stroke, and the stroke scales with the glyph at every size. Inline icons take the colour of the text around them; an icon gets a colour of its own only when the colour means something.
+
+## Sizes
+
+`Icon` sizes are 12, 16, 20 and 24px at a 16px root, and scale with the root font size. A component that owns an icon slot passes its own default size; otherwise the size is `md`.
+
+<IconSizes />
+
+## Colour
+
+- **Inline** icons in buttons, navigation, rows and inputs inherit their parent's colour, or use `primary`, `secondary` or `accent`. Resting navigation uses `secondary`.
+- **Status** icons use their status colour, `--color-icon-<status>`, which follows the status text colour.
+- **Feature** icons, such as home tiles, empty states and category markers, may use a categorical hue on its tinted surface: `--color-icon-<hue>` on `--color-background-<hue>`.
+
+<IconColours />
+
+## Semantic icon mapping
+
+Astryx components ask for icons by semantic name, such as `close` or `warning`, and the theme draws them. The hvn theme maps all 30 names to free Hugeicons:
+
+- One tick family: `check`, `success` and `checkDouble` use the geometric `02` tick.
+- `arrowUp` and `arrowDown` are shafted arrows, not chevrons.
+- Status icons are outlines, not filled, at the same stroke as every other icon.
+- Where Hugeicons offers a plain and a decorated version, hvn uses the plain one: an uncircled `stop` and `moreHorizontal`, and a blank `calendar`.
+
+### Chevrons and arrows
+
+<SemanticIcons group="Chevrons and arrows" />
+
+### Status
+
+<SemanticIcons group="Status" />
+
+### Actions and objects
+
+<SemanticIcons group="Actions and objects" />
+
+### Specific to NumberInput
+
+<SemanticIcons group="Specific to NumberInput" />
+
+## Use an icon
+
+Pass a semantic name to `Icon` whenever one fits, so the glyph follows the theme:
+
+```tsx
+import { Icon } from "@astryxdesign/core/Icon";
+
+<Icon icon="search" />;
+```
+
+For any other icon, use a free Hugeicon from the same set. `Icon` sizes and colours the SVG component it's given, so wrap `HugeiconsIcon` in a component:
+
+```tsx
+import type { SVGProps } from "react";
+import { PlusSignIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Icon } from "@astryxdesign/core/Icon";
+
+// Hugeicons sets the stroke itself, so the wrapper doesn't take one.
+function PlusIcon(props: Omit<SVGProps<SVGSVGElement>, "strokeWidth">) {
+  return <HugeiconsIcon icon={PlusSignIcon} {...props} />;
+}
+
+<Icon icon={PlusIcon} />;
+```
+
+- Keep the stock stroke, and don't pass `absoluteStrokeWidth`, so the stroke scales with the size like the theme's icons.
+- Use stroke rounded only. Don't mix in other icon sets or styles.
+- Give an icon a `label` when it's meaningful and stands alone. Leave it out when text beside the icon already says what it means.
+
+<NextSteps>
+
+- [Button](/docs/components/button) shows icons inside buttons.
+- [Hugeicons](https://hugeicons.com/icons) lists every free icon.
+
+</NextSteps>

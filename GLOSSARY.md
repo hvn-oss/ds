@@ -18,6 +18,10 @@ _Avoid_: Core, upstream
 A named set of colours, fonts and tokens that gives the base library the design system's look. `hvn` is the only theme today.
 _Avoid_: Skin, palette
 
+**Foundation**:
+One of the base layers every component draws on: colour, typography, shape and elevation, and icons. Each has an artboard in the design file and a page in the docs site's Foundations section.
+_Avoid_: Primitive, base style
+
 **Semantic icon**:
 A named icon role the base library asks for, such as `close` or `warning`, which the theme fills with a specific icon.
 _Avoid_: Icon slot, icon key, icon alias
@@ -55,7 +59,7 @@ A single page of documentation, written as content rather than code.
 _Avoid_: Article, doc
 
 **Section**:
-A named group of docs pages shown together in the sidebar, such as "Getting Started" or "Components". A section's index page is listed first in the sidebar, as Overview.
+A named group of docs pages shown together in the sidebar, such as "Getting Started", "Foundations" or "Components". A section's index page is listed first in the sidebar, as Overview.
 _Avoid_: Category, folder, group
 
 ### Kinds of docs page

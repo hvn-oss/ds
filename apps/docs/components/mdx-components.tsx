@@ -23,6 +23,7 @@ import {
 } from "@astryxdesign/core/Table";
 import { Text } from "@astryxdesign/core/Text";
 import { Example, Preview } from "./component-page-components";
+import * as foundationComponents from "./foundation-components";
 import { Callout, NextSteps, Step, Steps } from "./guide-components";
 import { RouterLink } from "./router-link";
 
@@ -154,4 +155,5 @@ export const mdxComponents: MDXComponents = {
   NextSteps,
   Preview,
   Example,
+  ...foundationComponents,
 };

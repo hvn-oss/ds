@@ -1,0 +1,44 @@
+---
+title: Shape and elevation
+description: Rounded containers, 1px borders, and shadows only where a layer floats.
+---
+
+Cards, menus and dialogs are rounder than the controls inside them. Buttons are rounded rectangles, not pills. Every border is 1px, and hierarchy on the page comes from hairlines, not shadows. Only floating layers get a shadow, and each shadow carries a 1px ring, so menus and dialogs keep an edge in dark mode.
+
+## Radius
+
+Radius doesn't change between modes.
+
+<RadiusScale />
+
+## Borders
+
+Every border is `var(--border-width)`, 1px. Hairlines use `--color-border`. Inputs and secondary controls, such as secondary buttons and selector triggers, use a 1px `--color-border-emphasized` outline rather than a tinted fill.
+
+<BorderSamples />
+
+| State             | Token                       | Treatment                                                                         |
+| ----------------- | --------------------------- | --------------------------------------------------------------------------------- |
+| Hairline          | `--color-border`            | Cards, rows, panels and dividers.                                                 |
+| Input at rest     | `--color-border-emphasized` | Quiet by choice; the label and focus ring carry the control.                      |
+| Input hover       | `--shadow-inset-hover`      | A 2px inset ring of `--color-border-emphasized` at 30%.                           |
+| Input focus       | `--color-accent`            | An accent border with a 2px inset ring of `--color-accent-muted`.                 |
+| Input status      | `--shadow-inset-error`      | A 2px inset ring of the status border colour at 30%, for success and warning too. |
+| Secondary control | `--color-border-emphasized` | Transparent, with a 1px outline.                                                  |
+| Focus ring        | `--color-accent`            | Astryx's 2px focus outline with a 3px offset, on every focusable control.         |
+| Selected          | `--shadow-inset-selected`   | A 2px inset ring of `--color-accent` at 50%.                                      |
+
+## Shadows
+
+Each level is a 1px ring plus one soft shadow. Floating layers draw no border of their own, so the ring is their edge. The selected `SegmentedControl` item keeps `--shadow-low`, the one in-page exception.
+
+<ShadowSamples />
+
+<ShadowTokens />
+
+<NextSteps>
+
+- [Icons](/docs/foundations/icons) covers icon sizes, colours and the semantic icon mapping.
+- [Colour](/docs/foundations/colour#border) lists the border colour values.
+
+</NextSteps>
