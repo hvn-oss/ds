@@ -1,80 +1,146 @@
 /**
  * HVN Theme
  *
- * Forked from Astryx Stone: warm, earthy neutrals with a violet brand primary.
- * Colors reference the reviewed Stone palette generated from palette.config.json.
- * Montserrat for headings, Figtree for body, JetBrains Mono for code, self-hosted
- * as variable fonts by hvn.fonts.css.
+ * Quiet, mostly monochrome and border-led: pure-grey neutrals, flat white
+ * surfaces with hairlines, and blue as the one primary colour. Colors reference
+ * the palette generated from palette.config.json. Inter for text and headings,
+ * JetBrains Mono for code, self-hosted as variable fonts by hvn.fonts.css.
+ *
+ * Decisions live on the foundations map: https://github.com/hvn-oss/ds/issues/12
  */
 
-import { defineTheme, defineSyntaxTheme } from "@astryxdesign/core/theme";
+import { defineTheme, defineSyntaxTheme, type TokenValue } from "@astryxdesign/core/theme";
 import { hvnIconRegistry } from "./icons.js";
-import { hvnPaletteRefs } from "./hvnPaletteRefs.generated";
+import { palette } from "./hvnPalettes.generated";
 
-const { blue, cyan, green, neutral, orange, pink, purple, red, teal, yellow } = hvnPaletteRefs;
+type Family = Record<"light" | "dark", Record<number, string>>;
 
-const lightDark = (light: string, dark: string): string => `light-dark(${light}, ${dark})`;
+const { blue, cyan, green, neutral, orange, pink, purple, red, teal, yellow } = palette;
+
 const withAlpha = (color: string, alpha: string): string => `${color}${alpha}`;
 
-/**
- * Input status borders and icons use softer mid-ramp stops than status text.
- * All supported input components share this one mapping so their status
- * treatment remains consistent.
- */
-const INPUT_STATUS_VARS = {
-  "status:success": {
-    "--color-border-success": lightDark(green.light[55], green.dark[70]),
-    "--color-icon-success": lightDark(green.light[55], green.dark[70]),
-  },
-  "status:warning": {
-    "--color-border-warning": lightDark(yellow.light[55], yellow.dark[70]),
-    "--color-icon-warning": lightDark(yellow.light[55], yellow.dark[70]),
-  },
-  "status:error": {
-    "--color-border-error": lightDark(red.light[60], red.dark[70]),
-    "--color-icon-error": lightDark(red.light[60], red.dark[70]),
-  },
-} as const;
+/** A family's light and dark stops as a `[light, dark]` token value. */
+const stops = (family: Family, light: number, dark: number): [string, string] => [
+  family.light[light],
+  family.dark[dark],
+];
+
+const black = neutral.light[0];
+const white = neutral.light[100];
 
 /**
- * Stone syntax uses mid-ramp colors in light mode and lighter stops in dark
- * mode. Light strings and properties share Teal; dark strings use Green 70,
- * while dark properties remain Teal.
+ * Categorical surfaces pair stop 90 with stop 30 text in light mode, and stop
+ * 25 with stop 85 text in dark mode. Gray uses the neutral family.
+ */
+const CATEGORICAL_FAMILIES = {
+  blue,
+  cyan,
+  gray: neutral,
+  green,
+  orange,
+  pink,
+  purple,
+  red,
+  teal,
+  yellow,
+};
+
+const categoricalTokens = Object.fromEntries(
+  Object.entries(CATEGORICAL_FAMILIES).flatMap(([hue, family]) => [
+    [`--color-background-${hue}`, stops(family, 90, 25)],
+    [`--color-border-${hue}`, stops(family, 80, 35)],
+    [`--color-icon-${hue}`, stops(family, 40, 75)],
+    [`--color-text-${hue}`, stops(family, 30, 85)],
+  ]),
+);
+
+/**
+ * Chart colours (https://github.com/hvn-oss/ds/issues/29). Categorical series
+ * share one stop per mode, so they differ only by hue. Brown and indigo borrow
+ * yellow and blue at another lightness.
+ */
+const DATA_CATEGORICAL_FAMILIES = { blue, orange, purple, green, pink, cyan, red, teal };
+
+/**
+ * Sequential ramps flip in dark mode, so step 1 (the lowest value) sits close
+ * to the background in both modes.
+ */
+const DATA_RAMP_FAMILIES = {
+  blue,
+  shamrock: green,
+  orange,
+  pink,
+  purple,
+  red,
+  teal,
+  yellow,
+  gray: neutral,
+};
+const DATA_RAMP_LIGHT = [90, 75, 60, 45, 30];
+const DATA_RAMP_DARK = [20, 35, 50, 65, 80];
+
+const dataTokens = {
+  ...Object.fromEntries(
+    Object.entries(DATA_CATEGORICAL_FAMILIES).map(([hue, family]) => [
+      `--color-data-categorical-${hue}`,
+      stops(family, 55, 60),
+    ]),
+  ),
+  "--color-data-categorical-brown": stops(yellow, 40, 50),
+  "--color-data-categorical-indigo": stops(blue, 30, 80),
+  "--color-data-neutral": stops(neutral, 60, 50),
+  ...Object.fromEntries(
+    Object.entries(DATA_RAMP_FAMILIES).flatMap(([ramp, family]) =>
+      DATA_RAMP_LIGHT.map((light, i) => [
+        `--color-data-${ramp}-${i + 1}`,
+        stops(family, light, DATA_RAMP_DARK[i]),
+      ]),
+    ),
+  ),
+};
+
+/**
+ * Code colours (https://github.com/hvn-oss/ds/issues/29). Each role keeps one
+ * hue in both modes, at the same 40 / 75 stops as status text. Plain roles use
+ * the primary and secondary text colours.
  */
 const hvnSyntax = defineSyntaxTheme({
   name: "astryx-hvn",
   tokens: {
-    keyword: [purple.light[40], purple.dark[70]],
-    string: [teal.light[40], green.dark[70]],
-    comment: [neutral.light[40], neutral.dark[70]],
-    number: [red.light[40], orange.dark[70]],
-    function: [blue.light[40], blue.dark[70]],
-    type: [purple.light[40], purple.dark[70]],
-    variable: [neutral.light[40], neutral.dark[70]],
-    operator: [neutral.light[40], neutral.dark[70]],
-    constant: [red.light[40], orange.dark[70]],
-    tag: [red.light[40], red.dark[70]],
-    attribute: [yellow.light[40], yellow.dark[70]],
-    property: [teal.light[40], teal.dark[70]],
-    punctuation: [neutral.light[40], neutral.dark[70]],
-    background: [neutral.light[95], neutral.dark[5]],
-    // Translucent diff rows retain each token's contrast while the opaque
-    // markers carry the same Green and Red families as their row tint.
-    added: [withAlpha(green.light[90], "40"), withAlpha(green.dark[80], "33")],
-    removed: [withAlpha(red.light[90], "40"), withAlpha(red.dark[80], "33")],
-    "added-marker": [green.light[30], green.dark[90]],
-    "removed-marker": [red.light[30], red.dark[90]],
+    keyword: stops(purple, 40, 75),
+    type: stops(purple, 40, 75),
+    string: stops(teal, 40, 75),
+    property: stops(teal, 40, 75),
+    number: stops(orange, 40, 75),
+    constant: stops(orange, 40, 75),
+    function: stops(blue, 40, 75),
+    tag: stops(red, 40, 75),
+    attribute: stops(yellow, 40, 75),
+    variable: stops(neutral, 10, 95),
+    operator: stops(neutral, 10, 95),
+    punctuation: stops(neutral, 10, 95),
+    comment: stops(neutral, 40, 70),
+    background: stops(neutral, 95, 10),
+    // Translucent diff rows reuse the success-muted and error-muted colours;
+    // their markers reuse text-success and text-error. Header rows sit on the
+    // muted background, as in the Design file.
+    "diff-header": stops(neutral, 95, 10),
+    added: [withAlpha(green.light[90], "40"), withAlpha(green.dark[25], "33")],
+    removed: [withAlpha(red.light[90], "40"), withAlpha(red.dark[25], "33")],
+    "added-marker": stops(green, 40, 75),
+    "removed-marker": stops(red, 40, 75),
   },
 });
 
 /**
- * The secondary Button treatment. Selector, MultiSelector, and ComplexSelector
- * reuse it for their `secondary` trigger so every secondary control in this
- * theme matches (AST-079 FR2).
+ * The secondary Button treatment: a 1px outline that matches the inputs beside
+ * it. Selector, MultiSelector, and ComplexSelector reuse it for their
+ * `secondary` trigger so every secondary control in this theme matches
+ * (AST-079 FR2).
  */
 const SECONDARY_BUTTON = {
   backgroundColor: "transparent",
-  borderWidth: "1.5px",
+  borderWidth: "var(--border-width)",
   borderStyle: "solid",
   borderColor: "var(--color-border-emphasized)",
   ":hover": {
@@ -105,21 +171,42 @@ const SECONDARY_COMPLEX_SELECTOR = {
   ':hover:not(:has(> :is(:disabled, [aria-disabled="true"])))': SECONDARY_HOVER,
 } as const;
 
+/** Display sizes and line heights, pinned off the scale. */
+const displayTokens = (
+  sizes: [number, number][],
+): Partial<Record<`--text-display-${1 | 2 | 3}-${"size" | "leading"}`, TokenValue>> =>
+  Object.fromEntries(
+    sizes.flatMap(([size, leading], i) => [
+      [`--text-display-${i + 1}-size`, `${size}px`],
+      [`--text-display-${i + 1}-leading`, `${leading}px`],
+    ]),
+  );
+
+/** Display tracking. Astryx has no tracking token, so it is set per type. */
+const DISPLAY_TRACKING = {
+  "type:display-1": { letterSpacing: "-0.03em" },
+  "type:display-2": { letterSpacing: "-0.03em" },
+  "type:display-3": { letterSpacing: "-0.03em" },
+} as const;
+
+const SANS_FALLBACKS =
+  '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
+
 export const hvnTheme = defineTheme({
   name: "hvn",
 
+  // Base 14 at ratio 1.2, with display pinned to 64 / 48 / 36 below.
+  // Headings are medium; display stays regular.
   typography: {
-    scale: { base: 14, ratio: 1.25 },
+    scale: { base: 14, ratio: 1.2 },
     body: {
-      family: "Figtree Variable",
-      fallbacks:
-        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+      family: "Inter Variable",
+      fallbacks: SANS_FALLBACKS,
     },
     heading: {
-      family: "Montserrat Variable",
-      fallbacks:
-        '"Figtree Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
-      weights: { 3: "bold", 4: "bold" },
+      family: "Inter Variable",
+      fallbacks: SANS_FALLBACKS,
+      weight: "medium",
     },
     code: {
       family: "JetBrains Mono Variable",
@@ -127,181 +214,160 @@ export const hvnTheme = defineTheme({
     },
   },
 
-  // Touch + narrow (Mobile Type, Pin): floor base to the 16px floor and
-  // re-derive the ratio so Display 1 keeps its desktop size:
-  // ratio' = 1.25 * (14/16)^(1/6) ~= 1.2225. Body 14 -> 16px, display-1 stays 53px.
+  // Touch and narrow (https://github.com/hvn-oss/ds/issues/30). On coarse
+  // pointers below `lg` the base rises to the 16px floor at the same ratio, so
+  // the whole ramp grows ×1.14. Pinned display sizes ignore the scale and step
+  // down by width only, whatever the pointer.
   adaptations: {
     rules: [
       {
         when: { pointer: "coarse", width: { below: "lg" } },
-        value: { typography: { scale: { base: 16, ratio: 1.2225 } } },
+        value: { typography: { scale: { base: 16, ratio: 1.2 } } },
+      },
+      {
+        when: { width: { from: "md", below: "lg" } },
+        value: {
+          tokens: displayTokens([
+            [48, 56],
+            [36, 44],
+            [30, 38],
+          ]),
+        },
+      },
+      {
+        when: { width: { below: "md" } },
+        value: {
+          tokens: displayTokens([
+            [36, 44],
+            [32, 40],
+            [30, 38],
+          ]),
+        },
       },
     ],
   },
-
-  motion: { fast: 125, medium: 300, slow: 700, ratio: 0.75 },
 
   syntax: hvnSyntax,
 
   tokens: {
-    // Core neutrals
-    "--color-accent": [neutral.light[15], neutral.dark[95]],
-    "--color-accent-muted": [withAlpha(neutral.light[15], "14"), withAlpha(neutral.dark[95], "20")],
-    "--color-neutral": [withAlpha(neutral.light[15], "0f"), withAlpha(neutral.dark[95], "1a")],
-    "--color-background-surface": [neutral.light[100], neutral.dark[10]],
-    "--color-background-body": [neutral.light[95], neutral.dark[5]],
-    "--color-overlay": [withAlpha(neutral.light[15], "80"), withAlpha(neutral.dark[15], "cc")],
-    "--color-overlay-hover": [
-      withAlpha(neutral.light[15], "0d"),
-      withAlpha(neutral.dark[95], "0d"),
-    ],
-    "--color-overlay-pressed": [
-      withAlpha(neutral.light[15], "1a"),
-      withAlpha(neutral.dark[95], "1a"),
-    ],
-    "--color-background-muted": [neutral.light[90], neutral.dark[25]],
+    // Surfaces are flat: a white page and panels, with hierarchy from hairlines.
+    "--color-background-body": stops(neutral, 100, 5),
+    "--color-background-surface": stops(neutral, 100, 5),
+    "--color-background-card": stops(neutral, 100, 10),
+    "--color-background-popover": stops(neutral, 100, 15),
+    "--color-background-muted": stops(neutral, 95, 10),
+    "--color-background-inverted": stops(neutral, 10, 95),
+    // The error Toast surface keeps white text in both modes.
+    "--color-background-error-inverted": stops(red, 40, 45),
+
+    // Blue is the primary colour; blue-600 is pinned at stop 45.
+    "--color-accent": stops(blue, 45, 60),
+    "--color-accent-muted": stops(blue, 90, 25),
+    "--color-on-accent": stops(neutral, 100, 5),
+
+    // Black and white tints, as in Astryx's Neutral theme.
+    "--color-neutral": [withAlpha(black, "0f"), withAlpha(white, "1a")],
+    "--color-overlay": [withAlpha(black, "80"), withAlpha(black, "cc")],
+    "--color-overlay-hover": [withAlpha(black, "0d"), withAlpha(white, "0d")],
+    "--color-overlay-pressed": [withAlpha(black, "1a"), withAlpha(white, "1a")],
+    "--color-on-dark": white,
+    "--color-on-light": neutral.light[5],
 
     // Text
-    "--color-text-primary": [neutral.light[15], neutral.dark[95]],
-    // These stops keep normal secondary text readable on Stone's body,
-    // muted, and categorical surfaces.
-    "--color-text-secondary": [neutral.light[40], neutral.dark[70]],
-    "--color-text-disabled": [neutral.light[85], neutral.dark[40]],
-    "--color-text-accent": [neutral.light[15], neutral.dark[95]],
-    "--color-on-dark": neutral.light[100],
-    "--color-on-light": [neutral.light[15], neutral.dark[15]],
-    "--color-on-accent": [neutral.light[100], neutral.dark[15]],
-    "--color-on-success": [neutral.light[100], neutral.dark[10]],
-    "--color-on-error": [neutral.light[100], neutral.dark[10]],
-    "--color-on-warning": [neutral.light[100], neutral.dark[10]],
-
-    "--color-info": [blue.light[40], blue.dark[70]],
-    "--color-info-muted": [blue.light[90], blue.dark[25]],
-    "--color-on-info": [neutral.light[100], neutral.dark[15]],
-
-    "--color-text-info": [blue.light[30], blue.dark[90]],
-    "--color-text-success": [green.light[30], green.dark[90]],
-    "--color-text-warning": [yellow.light[30], yellow.dark[90]],
-    "--color-text-error": [red.light[30], red.dark[90]],
-    "--color-on-info-muted": [blue.light[30], blue.dark[90]],
-    "--color-on-success-muted": [green.light[30], green.dark[25]],
-    "--color-on-warning-muted": [yellow.light[30], yellow.dark[25]],
-    "--color-on-error-muted": [red.light[30], red.dark[25]],
+    "--color-text-primary": stops(neutral, 10, 95),
+    "--color-text-secondary": stops(neutral, 40, 70),
+    "--color-text-disabled": stops(neutral, 70, 35),
+    "--color-text-accent": stops(blue, 45, 70),
 
     // Icon
-    "--color-icon-accent": [neutral.light[15], neutral.dark[95]],
-    "--color-icon-primary": [neutral.light[15], neutral.dark[95]],
-    "--color-icon-secondary": [neutral.light[55], neutral.dark[65]],
-    "--color-icon-disabled": [neutral.light[85], neutral.dark[40]],
+    "--color-icon-primary": stops(neutral, 10, 95),
+    "--color-icon-secondary": stops(neutral, 45, 65),
+    "--color-icon-disabled": stops(neutral, 70, 35),
+    "--color-icon-accent": stops(blue, 45, 70),
 
-    // Surface variants
-    "--color-background-card": [neutral.light[100], neutral.dark[15]],
-    "--color-background-popover": [neutral.light[100], neutral.dark[20]],
-    "--color-background-inverted": [neutral.light[15], neutral.dark[95]],
+    // Status. Status borders and icons follow text-<status> (Astryx default).
+    "--color-info": stops(blue, 45, 60),
+    "--color-info-muted": stops(blue, 90, 25),
+    "--color-on-info": stops(neutral, 100, 5),
+    "--color-on-info-muted": stops(blue, 30, 85),
+    "--color-text-info": stops(blue, 40, 75),
 
-    // Status / sentiment
-    "--color-success": [green.light[30], green.dark[80]],
-    "--color-success-muted": [green.light[90], green.dark[80]],
-    "--color-error": [red.light[30], red.dark[80]],
-    "--color-error-muted": [red.light[90], red.dark[80]],
-    "--color-warning": [yellow.light[30], yellow.dark[80]],
-    "--color-warning-muted": [yellow.light[90], yellow.dark[80]],
+    "--color-success": stops(green, 40, 65),
+    "--color-success-muted": stops(green, 90, 25),
+    "--color-on-success": stops(neutral, 100, 5),
+    "--color-on-success-muted": stops(green, 30, 85),
+    "--color-text-success": stops(green, 40, 75),
 
-    // Border
-    "--color-border": [neutral.light[90], withAlpha(neutral.dark[95], "1a")],
-    "--color-border-emphasized": [neutral.light[55], neutral.dark[40]],
+    "--color-warning": stops(yellow, 75, 75),
+    "--color-warning-muted": stops(yellow, 90, 25),
+    "--color-on-warning": stops(neutral, 5, 5),
+    "--color-on-warning-muted": stops(yellow, 30, 85),
+    "--color-text-warning": stops(yellow, 40, 75),
+
+    "--color-error": stops(red, 45, 60),
+    "--color-error-muted": stops(red, 90, 25),
+    "--color-on-error": stops(neutral, 100, 5),
+    "--color-on-error-muted": stops(red, 30, 85),
+    "--color-text-error": stops(red, 40, 75),
+
+    // Border. The emphasized outline is deliberately quiet, below 3:1, so
+    // controls that rely on it need another cue (a label, a fill or focus).
+    "--color-border": stops(neutral, 90, 20),
+    "--color-border-emphasized": stops(neutral, 80, 35),
 
     // Effects
-    "--color-skeleton": [neutral.light[85], neutral.dark[40]],
-    "--color-shadow": [withAlpha(neutral.light[15], "1a"), withAlpha(neutral.dark[0], "4d")],
-    "--color-tint-hover": [neutral.light[0], neutral.dark[100]],
+    "--color-skeleton": stops(neutral, 95, 20),
+    "--color-track": stops(neutral, 90, 25),
+    "--color-shadow": [withAlpha(black, "1a"), withAlpha(black, "4d")],
+    "--color-tint-hover": [black, white],
 
-    // Typography override
-    "--text-supporting-size": "12px",
+    ...categoricalTokens,
+    ...dataTokens,
 
-    // Categorical
-    // Light mode pairs pastel stop 90 surfaces with stop 30 foregrounds.
-    // Dark mode pairs stop 35 surfaces with stop 90 foregrounds; borders move
-    // one step inward in both modes.
-    "--color-background-blue": [blue.light[90], blue.dark[35]],
-    "--color-border-blue": [blue.light[85], blue.dark[25]],
-    "--color-icon-blue": [blue.light[30], blue.dark[90]],
-    "--color-text-blue": [blue.light[30], blue.dark[90]],
+    // Typography: display sizes pinned off the scale.
+    ...displayTokens([
+      [64, 72],
+      [48, 56],
+      [36, 44],
+    ]),
 
-    "--color-background-cyan": [cyan.light[90], cyan.dark[35]],
-    "--color-border-cyan": [cyan.light[85], cyan.dark[25]],
-    "--color-icon-cyan": [cyan.light[30], cyan.dark[90]],
-    "--color-text-cyan": [cyan.light[30], cyan.dark[90]],
-
-    "--color-background-gray": [neutral.light[90], neutral.dark[35]],
-    "--color-border-gray": [neutral.light[85], neutral.dark[25]],
-    "--color-icon-gray": [neutral.light[30], neutral.dark[90]],
-    "--color-text-gray": [neutral.light[30], neutral.dark[90]],
-
-    "--color-background-green": [green.light[90], green.dark[35]],
-    "--color-border-green": [green.light[85], green.dark[25]],
-    "--color-icon-green": [green.light[30], green.dark[90]],
-    "--color-text-green": [green.light[30], green.dark[90]],
-
-    "--color-background-orange": [orange.light[90], orange.dark[35]],
-    "--color-border-orange": [orange.light[85], orange.dark[25]],
-    "--color-icon-orange": [orange.light[30], orange.dark[90]],
-    "--color-text-orange": [orange.light[30], orange.dark[90]],
-
-    "--color-background-pink": [pink.light[90], pink.dark[35]],
-    "--color-border-pink": [pink.light[85], pink.dark[25]],
-    "--color-icon-pink": [pink.light[30], pink.dark[90]],
-    "--color-text-pink": [pink.light[30], pink.dark[90]],
-
-    "--color-background-purple": [purple.light[90], purple.dark[35]],
-    "--color-border-purple": [purple.light[85], purple.dark[25]],
-    "--color-icon-purple": [purple.light[30], purple.dark[90]],
-    "--color-text-purple": [purple.light[30], purple.dark[90]],
-
-    "--color-background-red": [red.light[90], red.dark[35]],
-    "--color-border-red": [red.light[85], red.dark[25]],
-    "--color-icon-red": [red.light[30], red.dark[90]],
-    "--color-text-red": [red.light[30], red.dark[90]],
-
-    "--color-background-teal": [teal.light[90], teal.dark[35]],
-    "--color-border-teal": [teal.light[85], teal.dark[25]],
-    "--color-icon-teal": [teal.light[30], teal.dark[90]],
-    "--color-text-teal": [teal.light[30], teal.dark[90]],
-
-    "--color-background-yellow": [yellow.light[90], yellow.dark[35]],
-    "--color-border-yellow": [yellow.light[85], yellow.dark[25]],
-    "--color-icon-yellow": [yellow.light[30], yellow.dark[90]],
-    "--color-text-yellow": [yellow.light[30], yellow.dark[90]],
-
-    // Radius
+    // Radius: containers are rounder than controls.
     "--radius-none": "0px",
     "--radius-inner": "0.25rem",
     "--radius-element": "0.5rem",
-    "--radius-container": "0.75rem",
+    "--radius-container": "1rem",
     "--radius-page": "1.5rem",
+    "--radius-chat": "1.5rem",
     "--radius-full": "9999px",
 
-    // Shadows
-    "--shadow-low": `0 2px 4px ${withAlpha(neutral.light[15], "0d")}, 0 4px 8px ${withAlpha(neutral.light[15], "1a")}`,
-    "--shadow-med": `0 2px 4px ${withAlpha(neutral.light[15], "0d")}, 0 4px 12px ${withAlpha(neutral.light[15], "1a")}`,
-    "--shadow-high": `0 4px 6px ${withAlpha(neutral.light[15], "1a")}, 0 12px 24px ${withAlpha(neutral.light[15], "26")}`,
-    "--shadow-inset-hover": `inset 0 0 0 2px ${withAlpha(neutral.light[15], "30")}`,
-    "--shadow-inset-selected": `inset 0 0 0 2px ${withAlpha(neutral.light[15], "50")}`,
-    "--shadow-inset-success": `inset 0 0 0 2px ${withAlpha(neutral.light[55], "30")}`,
-    "--shadow-inset-warning": `inset 0 0 0 2px ${withAlpha(neutral.light[55], "30")}`,
-    "--shadow-inset-error": `inset 0 0 0 2px ${withAlpha(neutral.light[55], "30")}`,
+    // Shadows: each level is a 1px ring plus one soft shadow, so floating
+    // layers keep an edge in dark mode, where a dialog matches the page.
+    "--shadow-low":
+      "0 0 0 1px light-dark(rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.08)), " +
+      "0 2px 8px light-dark(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.4))",
+    "--shadow-med":
+      "0 0 0 1px light-dark(rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.08)), " +
+      "0 4px 16px light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.5))",
+    "--shadow-high":
+      "0 0 0 1px light-dark(rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.1)), " +
+      "0 16px 40px light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.6))",
+    "--shadow-inset-hover":
+      "inset 0 0 0 2px color-mix(in srgb, var(--color-border-emphasized) 30%, transparent)",
+    "--shadow-inset-selected":
+      "inset 0 0 0 2px color-mix(in srgb, var(--color-accent) 50%, transparent)",
+    "--shadow-inset-success":
+      "inset 0 0 0 2px color-mix(in srgb, var(--color-border-success) 30%, transparent)",
+    "--shadow-inset-warning":
+      "inset 0 0 0 2px color-mix(in srgb, var(--color-border-warning) 30%, transparent)",
+    "--shadow-inset-error":
+      "inset 0 0 0 2px color-mix(in srgb, var(--color-border-error) 30%, transparent)",
   },
 
   components: {
+    text: DISPLAY_TRACKING,
+    heading: DISPLAY_TRACKING,
+
     button: {
-      base: {
-        borderRadius: "var(--radius-full)",
-      },
-      // HVN brand: violet primary buttons.
-      "variant:primary": {
-        backgroundColor: lightDark("#7c3aed", "#a78bfa"),
-        color: lightDark("#ffffff", "#1b1530"),
-      },
       "variant:secondary": SECONDARY_BUTTON,
       "variant:destructive": {
         backgroundColor: "var(--color-background-red)",
@@ -354,49 +420,17 @@ export const hvnTheme = defineTheme({
       },
     },
 
-    // Progress fills use the same family as their matching status surface;
-    // the darker stop in dark mode keeps the channel visible on dark tracks.
-    "progress-bar-fill": {
-      "variant:accent": {
-        backgroundColor: lightDark(blue.light[90], blue.dark[70]),
-      },
-      "variant:success": {
-        backgroundColor: lightDark(green.light[90], green.dark[70]),
-      },
-      "variant:warning": {
-        backgroundColor: lightDark(yellow.light[90], yellow.dark[70]),
-      },
-      "variant:error": {
-        backgroundColor: lightDark(red.light[90], red.dark[70]),
-      },
-    },
-
-    "progress-bar-mark": {
-      "placement:fill+variant:accent": {
-        backgroundColor: "var(--color-on-light)",
-      },
-      "placement:fill+variant:success": {
-        backgroundColor: "var(--color-on-light)",
-      },
-      "placement:fill+variant:warning": {
-        backgroundColor: "var(--color-on-light)",
-      },
-      "placement:fill+variant:error": {
-        backgroundColor: "var(--color-on-light)",
-      },
-    },
-
-    // The default muted track is too close to Stone's body surface.
+    // The default muted track is too close to the white page.
     "progress-bar-track": {
       base: {
-        backgroundColor: "var(--color-skeleton)",
+        backgroundColor: "var(--color-track)",
       },
     },
 
-    // Match the Switch off-state track to the visible ProgressBar track.
+    // Match the Switch off-state track to the ProgressBar track.
     switch: {
       base: {
-        "--color-background-gray": "var(--color-skeleton)",
+        "--color-background-gray": "var(--color-track)",
       },
     },
 
@@ -416,20 +450,9 @@ export const hvnTheme = defineTheme({
       },
     },
 
-    // Every input status border and icon uses INPUT_STATUS_VARS above.
-    "text-input": INPUT_STATUS_VARS,
-    "text-area": INPUT_STATUS_VARS,
-    "number-input": INPUT_STATUS_VARS,
-    "date-input": INPUT_STATUS_VARS,
-    "time-input": INPUT_STATUS_VARS,
-    selector: { ...INPUT_STATUS_VARS, "variant:secondary": SECONDARY_SELECTOR },
-    "multi-selector": {
-      ...INPUT_STATUS_VARS,
-      "variant:secondary": SECONDARY_SELECTOR,
-    },
+    selector: { "variant:secondary": SECONDARY_SELECTOR },
+    "multi-selector": { "variant:secondary": SECONDARY_SELECTOR },
     "complex-selector": { "variant:secondary": SECONDARY_COMPLEX_SELECTOR },
-    typeahead: INPUT_STATUS_VARS,
-    tokenizer: INPUT_STATUS_VARS,
 
     card: {
       base: {

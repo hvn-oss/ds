@@ -1,0 +1,225 @@
+---
+title: Colour
+description: Quiet, mostly monochrome colour, with blue as the one accent.
+---
+
+hvn is quiet and border-led. Neutrals are pure grey, surfaces are flat white with hairlines between them, and blue is the only accent. Blue marks primary actions, focus, links and selection. Other hues appear only when they mean something: a status, a category or a chart series.
+
+Every colour comes from Astryx's generated palette, at vibrancy 50. Each family is seeded from its Tailwind 500, and the accent is Tailwind's blue-600 (`#2563EB`), pinned at stop 45 in both modes. Components reach colours only through the tokens below, so style with tokens too, never with palette stops or hex values.
+
+Each token has a light and a dark value. The tables show both, whatever mode you're reading in.
+
+## Core
+
+The accent, page surfaces and overlays.
+
+<ColourTokens
+  tokens={[
+    "--color-accent",
+    "--color-accent-muted",
+    "--color-on-accent",
+    "--color-neutral",
+    "--color-background-surface",
+    "--color-background-body",
+    "--color-background-muted",
+    "--color-overlay",
+    "--color-overlay-hover",
+    "--color-overlay-pressed",
+  ]}
+/>
+
+## Text
+
+Every text colour passes 4.5:1 on the page, except disabled text, which is exempt.
+
+<ColourTokens
+  kind="text"
+  tokens={[
+    "--color-text-primary",
+    "--color-text-secondary",
+    "--color-text-disabled",
+    "--color-text-accent",
+    "--color-on-dark",
+    "--color-on-light",
+  ]}
+/>
+
+## Icon
+
+Icon colours pass the 3:1 non-text minimum, except disabled.
+
+<ColourTokens
+  kind="icon"
+  tokens={[
+    "--color-icon-primary",
+    "--color-icon-secondary",
+    "--color-icon-disabled",
+    "--color-icon-accent",
+  ]}
+/>
+
+## Surface
+
+Container surfaces. In light mode every surface is white; in dark mode they step up from the page. The error toast surface keeps white text in both modes.
+
+<ColourTokens
+  tokens={[
+    "--color-background-card",
+    "--color-background-popover",
+    "--color-background-inverted",
+    "--color-background-error-inverted",
+  ]}
+/>
+
+## Status
+
+Pick the token by the surface it sits on:
+
+- On the strong fill, such as `--color-info`, use `--color-on-info`.
+- On the pale fill, such as `--color-info-muted`, use `--color-on-info-muted`.
+- On the page, use `--color-text-info`. Status icons and borders follow the status text colour.
+
+### Info
+
+<ColourTokens
+  tokens={[
+    "--color-info",
+    "--color-info-muted",
+    "--color-on-info",
+    "--color-on-info-muted",
+    "--color-text-info",
+    "--color-icon-info",
+    "--color-border-info",
+  ]}
+/>
+
+### Success
+
+<ColourTokens
+  tokens={[
+    "--color-success",
+    "--color-success-muted",
+    "--color-on-success",
+    "--color-on-success-muted",
+    "--color-text-success",
+    "--color-icon-success",
+    "--color-border-success",
+  ]}
+/>
+
+### Warning
+
+<ColourTokens
+  tokens={[
+    "--color-warning",
+    "--color-warning-muted",
+    "--color-on-warning",
+    "--color-on-warning-muted",
+    "--color-text-warning",
+    "--color-icon-warning",
+    "--color-border-warning",
+  ]}
+/>
+
+### Error
+
+<ColourTokens
+  tokens={[
+    "--color-error",
+    "--color-error-muted",
+    "--color-on-error",
+    "--color-on-error-muted",
+    "--color-text-error",
+    "--color-icon-error",
+    "--color-border-error",
+  ]}
+/>
+
+## Border
+
+Hairlines use `--color-border`. Input and secondary-control outlines use `--color-border-emphasized`, which is quiet by choice: it falls below the 3:1 non-text minimum. A component that relies on that outline needs another cue as well, such as a label, a fill or the focus ring.
+
+<ColourTokens kind="border" tokens={["--color-border", "--color-border-emphasized"]} />
+
+## Effects
+
+Skeletons, progress and switch tracks, shadows and the hover tint.
+
+<ColourTokens
+  tokens={["--color-skeleton", "--color-track", "--color-shadow", "--color-tint-hover"]}
+/>
+
+## Categorical
+
+`--color-{background,border,icon,text}-<hue>` colour feature icons, tags and category markers. Each hue pairs a pale surface with a deep foreground: stops 90, 80, 40 and 30 in light mode, and 25, 35, 75 and 85 in dark mode. Gray uses the neutral family.
+
+<CategoricalColours />
+
+## Data
+
+Chart colours come from the same palette. Categorical series share one stop per mode, 55 in light and 60 in dark, so they differ only by hue and all pass 3:1 on the page. Brown borrows yellow and indigo borrows blue, at a different lightness. Use `--color-data-neutral` for an "other" or baseline series.
+
+<ColourTokens
+  tokens={[
+    "--color-data-categorical-blue",
+    "--color-data-categorical-orange",
+    "--color-data-categorical-purple",
+    "--color-data-categorical-green",
+    "--color-data-categorical-pink",
+    "--color-data-categorical-cyan",
+    "--color-data-categorical-red",
+    "--color-data-categorical-teal",
+    "--color-data-categorical-brown",
+    "--color-data-categorical-indigo",
+    "--color-data-neutral",
+  ]}
+/>
+
+Sequential ramps run from step 1, the lowest value, to step 5. They flip in dark mode, so step 1 always sits close to the background. Shamrock uses green, and gray uses neutral.
+
+<DataRamps />
+
+## Syntax
+
+Code blocks use the theme's syntax colours. Each role keeps one hue in both modes, at the same stops as status text. Identifiers, operators and punctuation use the primary text colour, and comments use the secondary one.
+
+<SyntaxSample />
+
+<ColourTokens
+  kind="text"
+  tokens={[
+    "--color-syntax-keyword",
+    "--color-syntax-type",
+    "--color-syntax-string",
+    "--color-syntax-property",
+    "--color-syntax-number",
+    "--color-syntax-constant",
+    "--color-syntax-function",
+    "--color-syntax-tag",
+    "--color-syntax-attribute",
+    "--color-syntax-variable",
+    "--color-syntax-operator",
+    "--color-syntax-punctuation",
+    "--color-syntax-comment",
+  ]}
+/>
+
+Diff rows reuse the success and error surfaces, and their markers reuse the status text colours.
+
+<ColourTokens
+  tokens={[
+    "--color-syntax-background",
+    "--color-syntax-diff-header",
+    "--color-syntax-added",
+    "--color-syntax-removed",
+    "--color-syntax-added-marker",
+    "--color-syntax-removed-marker",
+  ]}
+/>
+
+<NextSteps>
+
+- [Typography](/docs/foundations/typography) covers the text styles these colours are set in.
+- [Theming](/docs/theming) shows how to build on the theme.
+
+</NextSteps>

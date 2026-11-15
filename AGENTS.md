@@ -106,3 +106,7 @@ Default vocabulary: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-
 ### Domain docs
 
 Single-context: one `GLOSSARY.md` and `docs/adr/` at the repo root. See `docs/agents/domain.md`.
+
+### Patched skills
+
+`hugeicons-migrate` carries local fixes for `@hugeicons/core-free-icons` 4.4. Before you update a skill, read `docs/agents/patched-skills.md`.

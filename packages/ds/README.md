@@ -5,8 +5,9 @@ HVN design system, shipped as an [Astryx](https://astryx.design) integration: th
 ## Layout
 
 - `src/` — sources (committed).
-  - `src/themes/hvn/` — the `hvn` theme: `hvnTheme.ts` (forked from Stone, violet primary buttons),
-    its descriptor, palette, `icons.js`, and `hvn.fonts.css` (the `@fontsource-variable` faces it loads).
+  - `src/themes/hvn/` — the `hvn` theme: `hvnTheme.ts` (blue primary, Inter, Hugeicons), its
+    descriptor, palette (`palette.config.json` and its generated candidate), `icons.js`, and
+    `hvn.fonts.css` (the `@fontsource-variable` faces it loads).
 - `docs/` — doc topics; `hvn-theme.doc.mjs` extends the core `theme` topic (`astryx docs theme`).
 - `scripts/build-fonts.ts` — self-hosts each theme's fonts into `dist/`.
 - `dist/` — build outputs (gitignored).

@@ -1,6 +1,6 @@
 /* Self-hosted variable fonts: every weight, and the italic body face so emphasis isn't synthesized.
+   Inter's full axis set adds `opsz`, which gives the Display cut at large sizes.
    scripts/build-fonts.ts inlines these into dist/ with the font files; list @fontsource imports only. */
-@import "@fontsource-variable/figtree";
-@import "@fontsource-variable/figtree/wght-italic.css";
-@import "@fontsource-variable/montserrat";
+@import "@fontsource-variable/inter/opsz.css";
+@import "@fontsource-variable/inter/opsz-italic.css";
 @import "@fontsource-variable/jetbrains-mono";

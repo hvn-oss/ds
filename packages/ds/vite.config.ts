@@ -36,7 +36,7 @@ export default defineConfig({
     platform: "neutral",
     outExtensions: () => ({ js: ".js" }),
     deps: {
-      neverBundle: [/^react(\/|$)/, /^lucide-react/, /^@astryxdesign\//],
+      neverBundle: [/^react(\/|$)/, /^@hugeicons\//, /^@astryxdesign\//],
     },
     dts: false,
     report: false,
