@@ -1,0 +1,45 @@
+---
+title: Segmented control
+description: Picks one option from a small set, all shown at once.
+kind: component
+baseDocs: https://astryx.atmeta.com/components/SegmentedControl
+---
+
+<Preview name="segmented-control/default" />
+
+## Usage
+
+Use a segmented control to switch between two to five views or modes, such as a date range. It always has exactly one option selected. To move between pages, use tabs instead; for a single on/off choice, use a [toggle button](/docs/components/toggle-button).
+
+The control is controlled: pass its `value` and update it in `onChange`. Its `label` names it for screen readers and isn't shown.
+
+```tsx
+import { SegmentedControl, SegmentedControlItem } from "@astryxdesign/core/SegmentedControl";
+
+const [range, setRange] = useState("week");
+
+<SegmentedControl label="Date range" value={range} onChange={setRange}>
+  <SegmentedControlItem value="day" label="Day" />
+  <SegmentedControlItem value="week" label="Week" />
+</SegmentedControl>;
+```
+
+## Examples
+
+<Example name="segmented-control/icons" title="With icons">
+
+`icon` adds an icon before a segment's label. `isLabelHidden` shows the icon alone and keeps the label as the segment's accessible name.
+
+</Example>
+
+<Example name="segmented-control/fill" title="Fill">
+
+`layout="fill"` stretches the segments equally across the container. By default they hug their labels.
+
+</Example>
+
+<Example name="segmented-control/disabled" title="Disabled">
+
+`isDisabled` dims the whole control. `disabledMessage` explains why, in a tooltip on hover and focus; use it instead of wrapping the control in a `Tooltip`.
+
+</Example>

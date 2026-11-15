@@ -1,0 +1,25 @@
+---
+title: Touch sizing
+description: On a coarse pointer, controls grow with the type, so labels keep their proportions at arm's length.
+---
+
+On a coarse pointer below the `lg` breakpoint, the type floor raises the base from 14 to 16px, and controls grow ×1.14 with it, rounded to the 4px grid. Labels go from 14/20 to 16/24 and keep their desktop proportions in the box. Padding, gaps, radii and icons keep their desktop values, and Astryx's invisible 44px hit area still covers the rest of the tap target. See [Typography](/docs/foundations/typography#touch-floor) for the type floor.
+
+## Control sizes
+
+One adaptation rule grows the type and the controls together. The tokens are shared, so buttons, toggles, segmented controls, menu rows, triggers and inputs all follow. The Toolbar's 44px minimum height doesn't change.
+
+<ControlSizes />
+
+## Action
+
+Each sized Action control, drawn at the desktop scale and at touch size. Only the height and the type grow. `sm` segments use supporting type, so they go from 12/20 to 13/20 and stay 4px shorter than the track. Menu rows are drawn at hover, so their box shows.
+
+<ActionTouchSizes />
+
+<NextSteps>
+
+- [Typography](/docs/foundations/typography#touch-and-narrow) covers the touch type floor and display sizes by width.
+- [Button](/docs/components/button) shows each size in context.
+
+</NextSteps>

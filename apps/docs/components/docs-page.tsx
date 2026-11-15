@@ -24,7 +24,7 @@ import { StackItem } from "@astryxdesign/core/Stack";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { API_REFERENCE } from "#/lib/api-reference.ts";
-import { toCatalogEntries } from "#/lib/catalog.ts";
+import { toCatalogGroups } from "#/lib/catalog.ts";
 import type { BreadcrumbItem, DocsPageData, NavLink } from "#/lib/docs-page.ts";
 import { toOutlineItems } from "#/lib/outline.ts";
 import { DocsSidebar, SIDEBAR_WIDTH_CLASS } from "./docs-sidebar";
@@ -124,7 +124,7 @@ function ApiReference({ baseDocs }: { baseDocs?: string }) {
       </AnchorHeading>
       <Text as="p" display="block">
         See the{" "}
-        <Link href={baseDocs} isExternalLink>
+        <Link href={baseDocs} isExternalLink hasUnderline>
           Astryx documentation
         </Link>{" "}
         for more information.
@@ -135,7 +135,8 @@ function ApiReference({ baseDocs }: { baseDocs?: string }) {
 
 /**
  * The catalog page frame, from the `documentation` template: a banner, then a card for each other
- * page of the section. It has no MDX body and no table of contents.
+ * page of the section, in a titled group for each category. It has no MDX body and no table of
+ * contents.
  */
 function CatalogPage({ page }: { page: DocsPageData }) {
   return (
@@ -157,25 +158,30 @@ function CatalogPage({ page }: { page: DocsPageData }) {
                 )}
               </VStack>
             </Card>
-            <Grid columns={{ minWidth: 240, max: 3 }} gap={4}>
-              {toCatalogEntries(page.tree, page.url).map((entry) => (
-                <RouteClickableCard
-                  key={entry.url}
-                  label={`Open ${entry.title}`}
-                  href={entry.url}
-                  height="100%"
-                >
-                  <VStack gap={1}>
-                    <Text weight="bold">{entry.title}</Text>
-                    {entry.description && (
-                      <Text color="secondary" maxLines={3}>
-                        {entry.description}
-                      </Text>
-                    )}
-                  </VStack>
-                </RouteClickableCard>
-              ))}
-            </Grid>
+            {toCatalogGroups(page.tree, page.url).map((group, index) => (
+              <VStack key={`${index}-${group.title}`} gap={4}>
+                {group.title && <Heading level={2}>{group.title}</Heading>}
+                <Grid columns={{ minWidth: 240, max: 3 }} gap={4}>
+                  {group.entries.map((entry) => (
+                    <RouteClickableCard
+                      key={entry.url}
+                      label={`Open ${entry.title}`}
+                      href={entry.url}
+                      height="100%"
+                    >
+                      <VStack gap={1}>
+                        <Text weight="bold">{entry.title}</Text>
+                        {entry.description && (
+                          <Text color="secondary" maxLines={3}>
+                            {entry.description}
+                          </Text>
+                        )}
+                      </VStack>
+                    </RouteClickableCard>
+                  ))}
+                </Grid>
+              </VStack>
+            ))}
             <DocsPagination previous={page.previous} next={page.next} />
           </VStack>
         </LayoutContent>

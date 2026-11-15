@@ -1,0 +1,34 @@
+---
+title: Toolbar
+description: A bar of actions for the content below it, such as a table or a panel.
+kind: component
+baseDocs: https://astryx.atmeta.com/components/Toolbar
+---
+
+<Preview name="toolbar/default" />
+
+## Usage
+
+Use a toolbar for actions on a piece of content, above a table, at the top of a card or in a panel. For app-wide navigation, use the top nav instead. Put the title or back action in `startContent` and the main actions in `endContent`. Move actions people rarely use into a [more menu](/docs/components/more-menu).
+
+Set `size` on the toolbar, not on its buttons: they take its size. The toolbar is one Tab stop, and the arrow keys move between its controls. Separate it from the content below with `dividers`.
+
+```tsx
+import { Button } from "@astryxdesign/core/Button";
+import { Toolbar } from "@astryxdesign/core/Toolbar";
+
+<Toolbar
+  label="Contacts"
+  dividers={["bottom"]}
+  startContent={<Text weight="semibold">Contacts</Text>}
+  endContent={<Button label="Add contact" variant="primary" />}
+/>;
+```
+
+## Examples
+
+<Example name="toolbar/bulk-actions" title="Bulk actions">
+
+A toolbar that appears only while rows are selected sets `variant="muted"`, so it stands out as temporary. It uses `size="sm"` with a bottom divider. The buttons on it look the same as anywhere else.
+
+</Example>

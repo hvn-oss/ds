@@ -44,6 +44,14 @@ _Avoid_: Variant, master component, instance
 The note beside a set of component frames that gives the order of the prop values in their names.
 _Avoid_: Legend, naming guide
 
+**Variant grid**:
+The section of a component's artboard that holds every one of its component frames, laid out by their frame key.
+_Avoid_: Master components, matrix
+
+**Example panel**:
+A titled panel on a component's artboard that shows one concept, such as sizes or a slot, outside the variant grid.
+_Avoid_: Demo, showcase
+
 ### Docs site
 
 **Docs site**:
@@ -59,8 +67,12 @@ A single page of documentation, written as content rather than code.
 _Avoid_: Article, doc
 
 **Section**:
-A named group of docs pages shown together in the sidebar, such as "Getting Started", "Foundations" or "Components". A section's index page is listed first in the sidebar, as Overview.
+A named group of docs pages shown together in the sidebar, such as "Getting Started", "Foundations" or "Components". A section's index page is listed first in the sidebar, as Overview. Inside the Components section, pages are further grouped by component category.
 _Avoid_: Category, folder, group
+
+**Component category**:
+A named group of base library components from its reference set, such as Action, Data Input or Container. A component belongs to its category whether or not hvn has restyled it yet. Each category has a page in the design file and a group in the docs site's Components section.
+_Avoid_: Section, family, component group
 
 ### Kinds of docs page
 

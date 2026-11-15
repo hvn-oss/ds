@@ -1,11 +1,14 @@
 import { describe, expect, test } from "vite-plus/test";
 import {
+  controlSizes,
   formatColour,
   formatLength,
   iconStroke,
   splitLayers,
   tokenValue,
   toPx,
+  touchCondition,
+  touchTokens,
   typeStyleValues,
 } from "#/lib/foundations.ts";
 
@@ -43,6 +46,28 @@ describe("typeStyleValues", () => {
 
   test("keeps pinned display sizes", () => {
     expect(typeStyleValues("display-1")).toEqual({ size: "64", leading: "72", weight: "400" });
+  });
+});
+
+describe("control sizes", () => {
+  test("reads desktop and touch heights from the theme", () => {
+    expect(controlSizes()).toEqual([
+      { size: "sm", token: "--size-element-sm", desktop: "28", touch: "32" },
+      { size: "md", token: "--size-element-md", desktop: "32", touch: "36" },
+      { size: "lg", token: "--size-element-lg", desktop: "36", touch: "40" },
+    ]);
+  });
+
+  test("states the touch rule's condition", () => {
+    expect(touchCondition()).toBe("Coarse pointer, below lg (1024px)");
+  });
+
+  test("gives the touch rule's tokens, type scale included", () => {
+    const tokens = touchTokens();
+    expect(tokens["--size-element-md"]).toBe("36px");
+    expect(tokens["--font-size-base"]).toBe("1rem");
+    expect(tokens["--text-label-size"]).toBe("var(--font-size-base)");
+    expect(Object.keys(tokens).filter((token) => token.endsWith("-weight"))).toEqual([]);
   });
 });
 

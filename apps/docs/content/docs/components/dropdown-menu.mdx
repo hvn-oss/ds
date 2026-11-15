@@ -1,0 +1,37 @@
+---
+title: Dropdown menu
+description: A button that opens a list of actions.
+kind: component
+baseDocs: https://astryx.atmeta.com/components/DropdownMenu
+---
+
+<Preview name="dropdown-menu/default" />
+
+## Usage
+
+Use a dropdown menu for a short list of actions that don't need to be on screen all the time. Keep rows short and start each with a verb where you can. For navigation, use [links](/docs/components/link) or a navigation component instead.
+
+`button` takes the trigger's Button props, and the trigger ends in a chevron. To hang the menu off another control, such as an icon button, use `renderTrigger` instead.
+
+```tsx
+import { DropdownMenu } from "@astryxdesign/core/DropdownMenu";
+
+<DropdownMenu
+  button={{ label: "Sort by" }}
+  items={[{ label: "Name" }, { label: "Date created" }]}
+/>;
+```
+
+## Examples
+
+<Example name="dropdown-menu/icons-and-shortcuts" title="Icons, shortcuts and destructive rows">
+
+`icon` adds an icon before a row's label. Shortcut hints go in `endContent` as muted supporting text, not keyboard chips. Destructive rows have a red label, go last and follow a divider.
+
+</Example>
+
+<Example name="dropdown-menu/sections" title="Sections and descriptions">
+
+A `section` groups rows under a title, and `description` adds a line of supporting text under a row's label. `isDisabled` keeps a row in place but dims it.
+
+</Example>

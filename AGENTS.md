@@ -107,6 +107,10 @@ Default vocabulary: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-
 
 Single-context: one `GLOSSARY.md` and `docs/adr/` at the repo root. See `docs/agents/domain.md`.
 
+### Upstream fixes
+
+When a problem is best solved by a change in a library hvn builds on, ask the user whether to draft a request. With their yes, write it to `docs/fixes-for-upstream/`, following its README.
+
 ### Patched skills
 
 `hugeicons-migrate` carries local fixes for `@hugeicons/core-free-icons` 4.4. Before you update a skill, read `docs/agents/patched-skills.md`.

@@ -1,0 +1,42 @@
+---
+title: Link
+description: Takes people to another page, inline in text or on its own.
+kind: component
+baseDocs: https://astryx.atmeta.com/components/Link
+---
+
+<Preview name="link/default" />
+
+## Usage
+
+Use a link to go somewhere. For an action on the current page, use a [button](/docs/components/button) instead. Write link text that names the destination, never "click here".
+
+A link in running text always sets `hasUnderline`. Blue alone isn't enough to set a link apart from grey supporting text, so the underline does it. A standalone link sets `isStandalone` instead, and underlines on hover.
+
+```tsx
+import { Link } from "@astryxdesign/core/Link";
+
+<Text>
+  Change this in your{" "}
+  <Link href="/settings/billing" hasUnderline>
+    billing settings
+  </Link>
+  .
+</Text>;
+```
+
+To navigate with your app's router, wrap the app in a `LinkProvider`, or pass the router's link component as `as`.
+
+## Examples
+
+<Example name="link/inline" title="Inline">
+
+An inline link takes the size of the text around it, in body and in supporting text alike, and is always underlined.
+
+</Example>
+
+<Example name="link/external" title="External">
+
+`isExternalLink` opens the page in a new tab, adds an icon after the label and tells screen readers it opens a new tab.
+
+</Example>

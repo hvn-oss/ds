@@ -74,6 +74,9 @@ export default defineConfig({
       typecheck: {
         command: "tsc --noEmit && astryx integration check --strict",
       },
+      test: {
+        command: "vp test",
+      },
       // Packs and installs the package in a temp app; needs dist/ built.
       verify: {
         command: "astryx integration verify",

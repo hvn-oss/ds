@@ -1,4 +1,19 @@
 {
   "title": "Components",
-  "pages": ["button", "text-input", "card"]
+  "pages": [
+    "---Action---",
+    "button",
+    "button-group",
+    "context-menu",
+    "dropdown-menu",
+    "link",
+    "more-menu",
+    "segmented-control",
+    "toggle-button",
+    "toolbar",
+    "---Data Input---",
+    "text-input",
+    "---Container---",
+    "card"
+  ]
 }

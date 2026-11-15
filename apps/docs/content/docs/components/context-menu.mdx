@@ -1,0 +1,28 @@
+---
+title: Context menu
+description: A menu of actions for an element, opened by right-clicking or long-pressing it.
+kind: component
+baseDocs: https://astryx.atmeta.com/components/ContextMenu
+---
+
+<Preview name="context-menu/default" />
+
+## Usage
+
+Wrap the element the actions belong to, and pass the menu's rows as `items`. Not everyone knows to right-click, so every action in a context menu must also be reachable some other way, such as a [more menu](/docs/components/more-menu) on the same row. The menu uses the same panel and rows as a [dropdown menu](/docs/components/dropdown-menu).
+
+```tsx
+import { ContextMenu } from "@astryxdesign/core/ContextMenu";
+
+<ContextMenu label="File actions" items={[{ label: "Rename" }, { label: "Delete" }]}>
+  <FileRow />
+</ContextMenu>;
+```
+
+## Examples
+
+<Example name="context-menu/sections" title="Sections and submenus">
+
+A `section` groups rows under a title. A row with its own `items` opens them in a submenu beside the menu. Keep a menu to 10 or 12 rows; past that, group them into sections.
+
+</Example>

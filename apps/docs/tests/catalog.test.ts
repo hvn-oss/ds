@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vite-plus/test";
-import { toCatalogEntries } from "#/lib/catalog.ts";
+import { toCatalogGroups } from "#/lib/catalog.ts";
 import type { NavTree } from "#/lib/docs-page.ts";
 
 const tree: NavTree = {
@@ -25,15 +25,48 @@ const tree: NavTree = {
   ],
 };
 
-describe("toCatalogEntries", () => {
-  test("lists the other pages of the section the catalog page is the index of", () => {
-    expect(toCatalogEntries(tree, "/docs/components")).toEqual([
+describe("toCatalogGroups", () => {
+  test("groups the other pages of the section by the separators between them", () => {
+    expect(toCatalogGroups(tree, "/docs/components")).toEqual([
       {
-        title: "Button",
-        description: "Lets people take an action.",
-        url: "/docs/components/button",
+        title: undefined,
+        entries: [
+          {
+            title: "Button",
+            description: "Lets people take an action.",
+            url: "/docs/components/button",
+          },
+        ],
       },
-      { title: "Card", description: undefined, url: "/docs/components/card" },
+      {
+        title: "Forms",
+        entries: [{ title: "Card", description: undefined, url: "/docs/components/card" }],
+      },
+    ]);
+  });
+
+  test("a separator with no pages after it has no group", () => {
+    const empty: NavTree = {
+      name: "Docs",
+      children: [
+        {
+          type: "folder",
+          name: "Components",
+          index: { type: "page", name: "Components", url: "/docs/components" },
+          children: [
+            { type: "separator", name: "Action" },
+            { type: "page", name: "Button", url: "/docs/components/button" },
+            { type: "separator", name: "Content" },
+          ],
+        },
+      ],
+    };
+
+    expect(toCatalogGroups(empty, "/docs/components")).toEqual([
+      {
+        title: "Action",
+        entries: [{ title: "Button", description: undefined, url: "/docs/components/button" }],
+      },
     ]);
   });
 
@@ -64,12 +97,17 @@ describe("toCatalogEntries", () => {
       ],
     };
 
-    expect(toCatalogEntries(nested, "/docs/components")).toEqual([
-      { title: "Forms", description: "Inputs and controls.", url: "/docs/components/forms" },
+    expect(toCatalogGroups(nested, "/docs/components")).toEqual([
+      {
+        title: undefined,
+        entries: [
+          { title: "Forms", description: "Inputs and controls.", url: "/docs/components/forms" },
+        ],
+      },
     ]);
   });
 
   test("a page that isn't a section's index has no entries", () => {
-    expect(toCatalogEntries(tree, "/docs")).toEqual([]);
+    expect(toCatalogGroups(tree, "/docs")).toEqual([]);
   });
 });

@@ -89,17 +89,18 @@ function isExternal(href: string) {
   return /^([a-z][a-z\d+.-]*:|\/\/)/i.test(href);
 }
 
+/** Links in MDX are in running text, so they're always underlined (see `docs/roadmap.md`). */
 function MdxLink({ href = "", children }: ComponentProps<"a">) {
   if (isExternal(href)) {
     return (
-      <Link href={href} isExternalLink>
+      <Link href={href} isExternalLink hasUnderline>
         {children}
       </Link>
     );
   }
 
   return (
-    <Link as={RouterLink} href={href}>
+    <Link as={RouterLink} href={href} hasUnderline>
       {children}
     </Link>
   );
