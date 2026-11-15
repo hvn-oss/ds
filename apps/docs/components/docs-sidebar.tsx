@@ -26,7 +26,12 @@ export function DocsSidebar({ tree, currentUrl }: { tree: NavTree; currentUrl: s
 
 function DocsSidebarItem({ item }: { item: SidebarItem }) {
   return (
-    <RouteSideNavItem label={item.label} href={item.url} isSelected={item.isSelected}>
+    <RouteSideNavItem
+      label={item.label}
+      href={item.url}
+      isSelected={item.isSelected}
+      collapsible={item.isCollapsible}
+    >
       {/* `SideNavItem` treats any truthy children, even `[]`, as nested items. */}
       {item.children.length > 0 &&
         item.children.map((child) => (

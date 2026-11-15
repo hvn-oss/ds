@@ -25,9 +25,8 @@ This doc depends on decisions made in earlier maps. When a ticket's decision cha
 
 ## Components
 
-One map per category, each covering every component in that category of the Astryx reference set:
+One map per category, each covering every component in that category of the Astryx reference set. On the docs site, the Components section groups its pages by Astryx's own categories, so Container and Layout are separate groups even though they share a map. Each map adds its pages to its category's group in `components/meta.json`. See [Components catalog by category](https://github.com/hvn-oss/ds/issues/42).
 
-- Action
 - Data Input
 - Content
 - Navigation

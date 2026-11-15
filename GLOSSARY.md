@@ -59,8 +59,12 @@ A single page of documentation, written as content rather than code.
 _Avoid_: Article, doc
 
 **Section**:
-A named group of docs pages shown together in the sidebar, such as "Getting Started", "Foundations" or "Components". A section's index page is listed first in the sidebar, as Overview.
+A named group of docs pages shown together in the sidebar, such as "Getting Started", "Foundations" or "Components". A section's index page is listed first in the sidebar, as Overview. Inside the Components section, pages are further grouped by component category.
 _Avoid_: Category, folder, group
+
+**Component category**:
+A named group of base library components from its reference set, such as Action, Data Input or Container. A component belongs to its category whether or not hvn has restyled it yet. Each category has a page in the design file and a group in the docs site's Components section.
+_Avoid_: Section, family, component group
 
 ### Kinds of docs page
 

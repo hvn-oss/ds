@@ -105,4 +105,50 @@ describe("toSidebarSections", () => {
       },
     ]);
   });
+
+  test("a separator inside a folder is a collapsible item holding the pages after it", () => {
+    const tree: NavTree = {
+      name: "Docs",
+      children: [
+        {
+          type: "folder",
+          name: "Components",
+          index: { type: "page", name: "Components", url: "/docs/components" },
+          children: [
+            { type: "separator", name: "Action" },
+            { type: "page", name: "Button", url: "/docs/components/button" },
+            { type: "page", name: "Link", url: "/docs/components/link" },
+            { type: "separator", name: "Container" },
+            { type: "page", name: "Card", url: "/docs/components/card" },
+          ],
+        },
+      ],
+    };
+
+    expect(toSidebarSections(tree, "/docs/components/link")).toEqual([
+      {
+        title: "Components",
+        items: [
+          { label: "Overview", url: "/docs/components", isSelected: false, children: [] },
+          {
+            label: "Action",
+            isSelected: false,
+            isCollapsible: true,
+            children: [
+              { label: "Button", url: "/docs/components/button", isSelected: false, children: [] },
+              { label: "Link", url: "/docs/components/link", isSelected: true, children: [] },
+            ],
+          },
+          {
+            label: "Container",
+            isSelected: false,
+            isCollapsible: true,
+            children: [
+              { label: "Card", url: "/docs/components/card", isSelected: false, children: [] },
+            ],
+          },
+        ],
+      },
+    ]);
+  });
 });

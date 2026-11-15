@@ -1,5 +1,6 @@
 import type { Href } from "void/routes";
 import type { NavNode, NavTree } from "./docs-page";
+import { groupBySeparators } from "./nav-groups";
 
 // The sidebar's shape, kept apart from the Astryx components that render it.
 
@@ -7,6 +8,8 @@ export interface SidebarItem {
   label: string;
   url?: Href;
   isSelected: boolean;
+  /** Set for a group such as a component category, which can collapse and starts expanded. */
+  isCollapsible?: boolean;
   children: SidebarItem[];
 }
 
@@ -51,7 +54,20 @@ function asOverview(item: SidebarItem): SidebarItem {
   return { ...item, label: "Overview" };
 }
 
+/**
+ * A separator inside a folder, such as a component category, becomes a collapsible item with no
+ * page of its own, holding the pages up to the next separator.
+ */
 function toItems(nodes: NavNode[], currentUrl: string): SidebarItem[] {
+  return groupBySeparators(nodes).flatMap((group): SidebarItem[] => {
+    const items = toNodeItems(group.nodes, currentUrl);
+    if (group.name === undefined) return items;
+
+    return [{ label: group.name, isSelected: false, isCollapsible: true, children: items }];
+  });
+}
+
+function toNodeItems(nodes: NavNode[], currentUrl: string): SidebarItem[] {
   return nodes.flatMap((node): SidebarItem[] => {
     switch (node.type) {
       case "separator":
