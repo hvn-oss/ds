@@ -44,6 +44,14 @@ _Avoid_: Variant, master component, instance
 The note beside a set of component frames that gives the order of the prop values in their names.
 _Avoid_: Legend, naming guide
 
+**Variant grid**:
+The section of a component's artboard that holds every one of its component frames, laid out by their frame key.
+_Avoid_: Master components, matrix
+
+**Example panel**:
+A titled panel on a component's artboard that shows one concept, such as sizes or a slot, outside the variant grid.
+_Avoid_: Demo, showcase
+
 ### Docs site
 
 **Docs site**:
