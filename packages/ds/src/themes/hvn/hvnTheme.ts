@@ -136,39 +136,47 @@ const hvnSyntax = defineSyntaxTheme({
  * The secondary Button treatment: a 1px outline that matches the inputs beside
  * it. Selector, MultiSelector, and ComplexSelector reuse it for their
  * `secondary` trigger so every secondary control in this theme matches
- * (AST-079 FR2).
+ * (AST-079 FR2). Hover and press keep Astryx's overlay ramp, so a secondary
+ * differs from a ghost only by its outline
+ * (https://github.com/hvn-oss/ds/issues/36).
  */
 const SECONDARY_BUTTON = {
   backgroundColor: "transparent",
   borderWidth: "var(--border-width)",
   borderStyle: "solid",
   borderColor: "var(--color-border-emphasized)",
-  ":hover": {
-    backgroundColor: "var(--color-neutral)",
+} as const;
+
+/**
+ * Grouped secondaries share one seam (https://github.com/hvn-oss/ds/issues/38):
+ * every member after the first drops its leading outline, so the previous
+ * member's outline is the single 1px line between them.
+ */
+const SECONDARY_IN_BUTTON_GROUP = {
+  ':where(.astryx-button-group[data-orientation="horizontal"] > :not(:first-child))': {
+    borderInlineStartWidth: "0",
+  },
+  ':where(.astryx-button-group[data-orientation="vertical"] > :not(:first-child))': {
+    borderBlockStartWidth: "0",
   },
 } as const;
 
 /**
  * The secondary Button treatment on Selector and MultiSelector triggers
  * (AST-079 FR2). Inside an InputGroup a trigger keeps the neutral fill and the
- * group's edges instead (FR6). The hover stays off disabled and read-only
- * triggers, which carry `data-disabled` and `data-readonly`.
+ * group's edges instead (FR6).
  */
-const { ":hover": SECONDARY_HOVER, ...SECONDARY_SURFACE } = SECONDARY_BUTTON;
-
 const SECONDARY_SELECTOR = {
-  ":not(.astryx-input-group *)": SECONDARY_SURFACE,
-  ":hover:not([data-disabled], [data-readonly], .astryx-input-group *)": SECONDARY_HOVER,
+  ":not(.astryx-input-group *)": SECONDARY_BUTTON,
 } as const;
 
 /**
- * The secondary Button treatment on ComplexSelector triggers (AST-079 FR2), with
- * the hover kept off a disabled trigger, whose inner button is disabled
- * (natively or, keeping its tab stop, with `aria-disabled`).
+ * Menu panels get 8px padding, so 8px rows nest inside the 16px panel
+ * (https://github.com/hvn-oss/ds/issues/39). The padding also sets the
+ * variable the rows derive their corners from.
  */
-const SECONDARY_COMPLEX_SELECTOR = {
-  ...SECONDARY_SURFACE,
-  ':hover:not(:has(> :is(:disabled, [aria-disabled="true"])))': SECONDARY_HOVER,
+const MENU_PANEL = {
+  padding: "var(--spacing-2)",
 } as const;
 
 /** Display sizes and line heights, pinned off the scale. */
@@ -216,13 +224,21 @@ export const hvnTheme = defineTheme({
 
   // Touch and narrow (https://github.com/hvn-oss/ds/issues/30). On coarse
   // pointers below `lg` the base rises to the 16px floor at the same ratio, so
-  // the whole ramp grows ×1.14. Pinned display sizes ignore the scale and step
-  // down by width only, whatever the pointer.
+  // the whole ramp grows ×1.14, and controls grow with it, rounded to the 4px
+  // grid (https://github.com/hvn-oss/ds/issues/47). Pinned display sizes ignore
+  // the scale and step down by width only, whatever the pointer.
   adaptations: {
     rules: [
       {
         when: { pointer: "coarse", width: { below: "lg" } },
-        value: { typography: { scale: { base: 16, ratio: 1.2 } } },
+        value: {
+          typography: { scale: { base: 16, ratio: 1.2 } },
+          tokens: {
+            "--size-element-sm": "32px",
+            "--size-element-md": "36px",
+            "--size-element-lg": "40px",
+          },
+        },
       },
       {
         when: { width: { from: "md", below: "lg" } },
@@ -368,7 +384,7 @@ export const hvnTheme = defineTheme({
     heading: DISPLAY_TRACKING,
 
     button: {
-      "variant:secondary": SECONDARY_BUTTON,
+      "variant:secondary": { ...SECONDARY_BUTTON, ...SECONDARY_IN_BUTTON_GROUP },
       "variant:destructive": {
         backgroundColor: "var(--color-background-red)",
         color: "var(--color-text-red)",
@@ -452,7 +468,44 @@ export const hvnTheme = defineTheme({
 
     selector: { "variant:secondary": SECONDARY_SELECTOR },
     "multi-selector": { "variant:secondary": SECONDARY_SELECTOR },
-    "complex-selector": { "variant:secondary": SECONDARY_COMPLEX_SELECTOR },
+    "complex-selector": { "variant:secondary": SECONDARY_BUTTON },
+
+    // Popover menus and their submenu flyouts. The bottom sheet keeps its own
+    // inset.
+    "dropdown-menu": { "presentation:popover": MENU_PANEL },
+
+    // ContextMenu has one key for its panel and its bottom sheet, so the sheet
+    // (marked `data-autofocus`) gets Astryx's inset back: the sheet's 16px / 4px
+    // plus the menu's 4px. tests/context-menu-sheet.test.ts guards the marker.
+    "context-menu": {
+      base: {
+        ...MENU_PANEL,
+        ":is([data-autofocus])": {
+          paddingBlockStart: "calc(var(--spacing-4) + var(--spacing-1))",
+          paddingBlockEnd: "var(--spacing-1)",
+          paddingInline: "calc(var(--spacing-1) + var(--spacing-1))",
+        },
+      },
+    },
+
+    // The pressed fill and the focus ring get 4px corners and 2px of air
+    // around the text, which the negative margin keeps in place
+    // (https://github.com/hvn-oss/ds/issues/40).
+    link: {
+      base: {
+        borderRadius: "var(--radius-inner)",
+        paddingInline: "var(--spacing-0-5)",
+        marginInline: "calc(-1 * var(--spacing-0-5))",
+      },
+    },
+
+    // The focus ring sits in the track's padding and gap, so it stays inside
+    // the track (https://github.com/hvn-oss/ds/issues/41).
+    "segmented-control-item": {
+      base: {
+        "--focus-outline-offset": "0px",
+      },
+    },
 
     card: {
       base: {
