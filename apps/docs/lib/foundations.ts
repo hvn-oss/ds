@@ -1,3 +1,4 @@
+import { expandTypeScale } from "@astryxdesign/core/theme";
 import { resolveThemeTokens } from "@astryxdesign/core/theme/tokens";
 import { themes, defaultThemeSlug } from "../astryx-themes.ts";
 
@@ -120,6 +121,26 @@ export function controlSizes(): ControlSize[] {
       touch: round(toPx(String(tokens[token as keyof typeof tokens]))),
     };
   });
+}
+
+/**
+ * The tokens the touch rule writes: its type scale's sizes and line heights, plus its own tokens.
+ * Set on an element, they draw its subtree at touch size whatever the pointer. Sizes are set as
+ * well as the `--font-size-*` steps, since a custom property resolves its `var()` where it is set.
+ * Weights are left out, as the rule doesn't change them.
+ */
+export function touchTokens(): Record<string, string> {
+  const { typography, tokens } = touchRule().value;
+  // The rule's scale may set only some fields; the rest come from the theme's own scale.
+  const themeScale = docsTheme.__axes?.typography?.scale;
+  const typeTokens =
+    typography?.scale && themeScale ? expandTypeScale({ ...themeScale, ...typography.scale }) : {};
+  return {
+    ...Object.fromEntries(
+      Object.entries(typeTokens).filter(([token]) => !token.endsWith("-weight")),
+    ),
+    ...(tokens as Record<string, string>),
+  };
 }
 
 /** The touch rule's condition in words: `Coarse pointer, below lg (1024px)`. */

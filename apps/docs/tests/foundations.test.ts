@@ -8,6 +8,7 @@ import {
   tokenValue,
   toPx,
   touchCondition,
+  touchTokens,
   typeStyleValues,
 } from "#/lib/foundations.ts";
 
@@ -59,6 +60,14 @@ describe("control sizes", () => {
 
   test("states the touch rule's condition", () => {
     expect(touchCondition()).toBe("Coarse pointer, below lg (1024px)");
+  });
+
+  test("gives the touch rule's tokens, type scale included", () => {
+    const tokens = touchTokens();
+    expect(tokens["--size-element-md"]).toBe("36px");
+    expect(tokens["--font-size-base"]).toBe("1rem");
+    expect(tokens["--text-label-size"]).toBe("var(--font-size-base)");
+    expect(Object.keys(tokens).filter((token) => token.endsWith("-weight"))).toEqual([]);
   });
 });
 

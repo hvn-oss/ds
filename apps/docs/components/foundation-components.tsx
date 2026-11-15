@@ -5,6 +5,11 @@ import { Center } from "@astryxdesign/core/Center";
 import { Code } from "@astryxdesign/core/Code";
 import { CodeBlock } from "@astryxdesign/core/CodeBlock";
 import { Divider } from "@astryxdesign/core/Divider";
+import {
+  DropdownMenu,
+  DropdownMenuContext,
+  DropdownMenuItem,
+} from "@astryxdesign/core/DropdownMenu";
 import { Grid } from "@astryxdesign/core/Grid";
 import { Heading } from "@astryxdesign/core/Heading";
 import { HStack } from "@astryxdesign/core/HStack";
@@ -21,6 +26,7 @@ import {
 import { Text } from "@astryxdesign/core/Text";
 import { TextInput } from "@astryxdesign/core/TextInput";
 import { Theme } from "@astryxdesign/core/theme";
+import { ToggleButton } from "@astryxdesign/core/ToggleButton";
 import { VStack } from "@astryxdesign/core/VStack";
 import {
   controlSizes,
@@ -33,7 +39,9 @@ import {
   splitLayers,
   tokenValue,
   touchCondition,
+  touchTokens,
   typeStyleValues,
+  type ControlSize,
   type Mode,
 } from "#/lib/foundations.ts";
 import { SEMANTIC_ICON_GROUPS } from "#/lib/semantic-icons.ts";
@@ -522,6 +530,126 @@ export function ControlSizes() {
       </Table>
       <Text type="supporting">Touch applies on: {touchCondition()}.</Text>
     </VStack>
+  );
+}
+
+/** Draws its children at touch size, whatever the pointer, with the touch rule's tokens. */
+function AtTouchSize({ children }: { children: ReactNode }) {
+  return (
+    <HStack vAlign="center" style={touchTokens() as CSSProperties}>
+      {children}
+    </HStack>
+  );
+}
+
+type ControlSizeName = ControlSize["size"];
+
+/** A menu row drawn on its own, outside a popover. */
+function MenuRow({ size }: { size: ControlSizeName }) {
+  // The row is drawn at hover, as in the Design file, so its box shows. A menu row paints its
+  // hover on focus, which follows the pointer, so the fill is set here with the same token.
+  return (
+    <DropdownMenuContext value={{ closeMenu: () => {}, menuSize: size }}>
+      <VStack role="menu" aria-label="Edit">
+        <DropdownMenuItem
+          label="Duplicate"
+          icon="copy"
+          style={{ backgroundColor: "var(--color-overlay-hover)" }}
+        />
+      </VStack>
+    </DropdownMenuContext>
+  );
+}
+
+const ACTION_CONTROLS: {
+  name: string;
+  variant: string;
+  render: (size: ControlSizeName) => ReactNode;
+}[] = [
+  {
+    name: "Button",
+    variant: "secondary",
+    render: (size) => <Button label="Button" size={size} />,
+  },
+  {
+    name: "ToggleButton",
+    variant: "toggled",
+    render: (size) => (
+      <ToggleButton label="Filter" size={size} isPressed>
+        Filter
+      </ToggleButton>
+    ),
+  },
+  {
+    name: "SegmentedControl",
+    variant: "label",
+    render: (size) => (
+      <SegmentedControl label="View" value="list" onChange={() => {}} size={size}>
+        <SegmentedControlItem value="list" label="List" />
+        <SegmentedControlItem value="board" label="Board" />
+      </SegmentedControl>
+    ),
+  },
+  {
+    name: "Menu row",
+    variant: "DropdownMenu · hover",
+    render: (size) => <MenuRow size={size} />,
+  },
+  {
+    name: "Dropdown trigger",
+    variant: "DropdownMenu · secondary",
+    render: (size) => (
+      <DropdownMenu
+        button={{ label: "Options", size }}
+        items={[{ label: "Rename" }, { label: "Duplicate" }]}
+      />
+    ),
+  },
+];
+
+/** Each sized Action control at every size, drawn at the desktop scale and at touch size. */
+export function ActionTouchSizes() {
+  const sizes = controlSizes();
+
+  return (
+    <Table density="compact">
+      <TableHeader>
+        <TableRow>
+          <TableHeaderCell>Control</TableHeaderCell>
+          <TableHeaderCell>Size</TableHeaderCell>
+          <TableHeaderCell>Desktop</TableHeaderCell>
+          <TableHeaderCell>Touch</TableHeaderCell>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {ACTION_CONTROLS.flatMap(({ name, variant, render }) =>
+          sizes.map(({ size, desktop, touch }, index) => (
+            <TableRow key={`${name}-${size}`}>
+              {index === 0 && (
+                <TableCell rowSpan={sizes.length}>
+                  <VStack gap={0.5}>
+                    <Text weight="medium">{name}</Text>
+                    <Text type="supporting">{variant}</Text>
+                  </VStack>
+                </TableCell>
+              )}
+              <TableCell>
+                <Code>{size}</Code>
+                <Text type="supporting" display="inline" hasTabularNumbers>
+                  {` ${desktop} → ${touch}`}
+                </Text>
+              </TableCell>
+              <TableCell>
+                <HStack vAlign="center">{render(size)}</HStack>
+              </TableCell>
+              <TableCell>
+                <AtTouchSize>{render(size)}</AtTouchSize>
+              </TableCell>
+            </TableRow>
+          )),
+        )}
+      </TableBody>
+    </Table>
   );
 }
 
