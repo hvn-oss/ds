@@ -1,6 +1,6 @@
 # Visual identity roadmap
 
-The hvn visual identity ships as a series of small releases, each charted as its own wayfinder map. The first map covers foundations and icons. This doc holds what the later maps need until each one is charted; delete a section once its map exists.
+The hvn visual identity ships as a series of small releases, each charted as its own wayfinder map. The first map covers foundations and icons. This doc holds what the later maps need until each one is charted; delete a map's entry in [Map order](#map-order) once its map exists.
 
 This doc depends on decisions made in earlier maps. When a ticket's decision changes something written here, update this doc in the same session, and link the ticket that made the change.
 
@@ -27,30 +27,28 @@ This doc depends on decisions made in earlier maps. When a ticket's decision cha
 - **Tokens in SVGs.** Write icon SVGs with token strokes (`stroke="var(--color-icon-primary)"`) from the start. Paper can't rebind a path's stroke to a token afterwards, so fixing a literal hex means rewriting the SVG. Paper renders `currentColor` as black, so `inherit` glyphs use `var(--color-text-primary)`. Chart colours (`--color-data-*`) appear on the Colour artboard only and are not Design file tokens. See [Build the foundation pages in the Design file](https://github.com/hvn-oss/ds/issues/24). Paper's `color-mix` can only fade a token toward `transparent`, not mix two colours. Values that Astryx mixes, such as Link's 15% hover tint, are drawn as their computed light values and noted on the artboard (see [Build the Action page in the Design file](https://github.com/hvn-oss/ds/issues/43)).
 - **Docs render from the theme.** The docs Foundations pages draw swatches and specimens with the theme's tokens, and print values resolved from the theme, so a theme change updates them without an edit. The semantic icon table is tested against the theme's icon registry. Docs examples that need an icon outside the semantic names use a free Hugeicon wrapped for Astryx `Icon`; the docs site no longer uses `lucide-react`. See [Foundations section on the docs site](https://github.com/hvn-oss/ds/issues/26).
 
-## Components
+## Map order
 
-One map per category, each covering every component in that category of the Astryx reference set. On the docs site, the Components section groups its pages by Astryx's own categories, so Container and Layout are separate groups even though they share a map. Each map adds its pages to its category's group in `components/meta.json`. See [Components catalog by category](https://github.com/hvn-oss/ds/issues/42).
+The remaining maps, in the order they are charted. Delete an entry once its map exists. [hvn visual identity: Data Input components](https://github.com/hvn-oss/ds/issues/51) is in progress.
 
-- Data Input
-- Content
-- Navigation
-- Overlay
-- Feedback and Status
-- Table and List
-- Container and Layout
-- Chat
+A component map covers every component in its category of the Astryx reference set. On the docs site, the Components section groups its pages by Astryx's own categories, so Container and Layout are separate groups even though they share a map. Each map adds its pages to its category's group in `components/meta.json`. See [Components catalog by category](https://github.com/hvn-oss/ds/issues/42). Template maps cover only the templates the references inform; the rest of the Astryx templates are out of scope.
 
-## Templates
+Navigation and Container and Layout come first, because the landing page and docs shell is built from them. The other component maps only style what sits inside docs pages, so they follow the shell. The templates compose the components, so they come last.
 
-Only the templates the references inform:
-
-- Landing page (Beside). Marketing shares the app's theme and tokens, and differs only in composition: `display-*` text styles, Beside's section rhythm (80→112px) and framed product visuals. This map decides whether marketing gets any decorative gradient. See [hvn visual direction](https://github.com/hvn-oss/ds/issues/18).
-- Auth and onboarding (Attio)
-- App shell and dashboard (ElevenLabs, Attio)
-- Table views (Attio)
-
-The rest of the Astryx templates are out of scope.
-
-## Landing page and docs shell
-
-The look and feel of the docs site itself, meaning the landing page and the docs frame (navbar, sidebar, page chrome), restyled in the hvn visual identity.
+1. **Navigation** (components).
+2. **Container and Layout** (components).
+3. **Landing page and docs shell.** The look and feel of the docs site itself, meaning the landing page and the docs frame (navbar, sidebar, page chrome), restyled in the hvn visual identity.
+   - The frame is built from AppShell, Layout, Divider, TopNav, SideNav, Breadcrumbs, Outline and MobileNav, and the catalog page uses Card and ClickableCard. It also uses Button and Link, which Action has already shipped.
+   - The only other dependency is the Selector that replaces the outline on narrow screens: ship Data Input's Selectors and search family first, or keep the stock Astryx Selector until it lands.
+   - Content inside docs pages (CodeBlock, Table, Banner callouts, Blockquote) restyles as its own category's map ships.
+   - The docs landing page overlaps with the Landing page template: both use the marketing composition (`display-*` text, section rhythm, framed product visuals, any decorative gradient). This map decides which of the two settles that composition first.
+4. **Content** (components).
+   - Token also shows the selections in Tokenizer, PowerSearch and Typeahead, so a `token` override restyles them. Follow whatever [Selectors and search design](https://github.com/hvn-oss/ds/issues/61) decides about whether a Token counts as a chip. See [Astryx anatomy of the Selectors and search](https://github.com/hvn-oss/ds/issues/54).
+5. **Overlay** (components).
+6. **Feedback and Status** (components).
+7. **Table and List** (components).
+8. **Chat** (components).
+9. **Landing page template** (Beside). Marketing shares the app's theme and tokens, and differs only in composition: `display-*` text styles, Beside's section rhythm (80→112px) and framed product visuals. This map decides whether marketing gets any decorative gradient, unless the landing page and docs shell has already settled it. See [hvn visual direction](https://github.com/hvn-oss/ds/issues/18).
+10. **Auth and onboarding template** (Attio).
+11. **App shell and dashboard template** (ElevenLabs, Attio).
+12. **Table views template** (Attio).
